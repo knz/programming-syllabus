@@ -2,6 +2,9 @@
  “Programming”
 ===============
 
+This is the course syllabus for the “Programming” course given at the
+Vrije Universiteit Amsterdam in 2014.
+
 List of materials
 =================
 

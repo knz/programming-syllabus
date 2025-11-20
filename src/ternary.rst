@@ -124,7 +124,7 @@ Further reading
 Copyright and licensing
 =======================
 
-Copyright © 2014, Raphael ‘kena’ Poss.
+Copyright © 2014, `Raphael Poss <https://raphaelposs.com/>`__.
 Permission is granted to distribute, reuse and modify this document
 according to the terms of the Creative Commons Attribution-ShareAlike
 4.0 International License.  To view a copy of this license, visit
