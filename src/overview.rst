@@ -90,17 +90,9 @@ Lecture topics
 
   .. __: intro-arrays.html
 
-(the ECTR2 course is here at this date - Nov 22nd 2014)
-
 - `Using objects for data structuring`__;
 
   .. __: obj-struct.html
-
-- References, aliases, null and garbage collection
-
-- Event-based programming;
-
-(the ECTR1 course is here at this date - Nov 22nd 2014)
 
 - `Functional recursion`__
 
@@ -110,6 +102,3 @@ Lecture topics
 
   .. __: 2d-arrays.html
 
-- Enumerations and enumeration types;
-- Exceptions and error reporting;
-- Introduction to File I/O;
