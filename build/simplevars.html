@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>Simple variables and data types</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="simple-variables-and-data-types">
+<h1 class="title">Simple variables and data types</h1>
+
+<div class="section" id="fundamental-concepts">
+<h1>Fundamental concepts</h1>
+<p>As explained in the first introductory lecture, there are two
+motivations for writing programs: software engineering for automation,
+formalization to help people think. Most languages designed for
+software engineering, including Java, are called “imperative”
+languages: a program tells the computer what to do, step by step, like
+a recipe tells the cook what to do.</p>
+<p>All imperative languages are based on two fundamental concepts: 1) the
+computer proceeds through the program step-wise; so there is a
+conceptual “cursor” that designates “the current point of execution”
+over time; and 2) the computer is equipped with <em>memory</em> where values
+can be stored and retrieved.</p>
+<p>So when you use an imperative language, you have two mechanisms at your
+disposal to tell the computer what to do: statements that change the
+<em>flow of control</em>, like “<tt class="docutils literal">if</tt>” seen in the last lecture, and
+statements that <em>modify the state of the memory</em>, like the
+assignment.</p>
+<p>In hardware, the memory is a circuit that can only store unstructured
+binary values: very long strings of digits 0 and 1. To ease the task
+of the programmer, language designers have created the concept of <em>variable</em>
+to add logical structure to the memory circuits.</p>
+<p>A variable is a combination of a name for an area of memory; and a
+type which indicates the computer how to interpret the raw binary
+digits stored in that area.</p>
+</div>
+<div class="section" id="practical-introduction">
+<h1>Practical introduction</h1>
+<p>Variables in a program define space in a computer's memory where
+values can be stored and later retrieved.</p>
+<p>In languages like Java, and contrary to other languages like Python,
+variables must be <em>declared</em> before they can be used: the program
+must “announce” that a variable exists and give it a name before
+subsequent steps can store values in it or read from it.</p>
+<p>Moreover, <em>each variable can only store a limited set of different
+values.</em> For example, one variable could only hold integral numbers
+between -2147483648 and 2147483647, and another only values between -128
+and 127. The programmer selects the set of values that can be
+potentially held in a variable by selecting a <em>type</em> for the variable
+when it is declared. The language will then automatically determine
+an area in memory of sufficient size to hold the variable.</p>
+</div>
+<div class="section" id="declarations">
+<h1>Declarations</h1>
+<p>The general form for a variable declaration is defined thus:</p>
+<p><em>Declaration</em>:</p>
+<blockquote>
+<p>Syntax: &lt;type&gt; &lt;identifier&gt; <tt class="docutils literal">;</tt></p>
+<p>Semantics: the construct declares a variable named by the identifier
+on the right, that can potentially store values determined
+by the type on the left.</p>
+</blockquote>
+<p>Each language has different types for variables already <em>built-in</em>, ie
+provided “out of the box”, always available to programs.  For example,
+in Java, we often use the built-in types “<tt class="docutils literal">int</tt>” for integral values
+(like 123) and “<tt class="docutils literal">double</tt>” for approximate real values (“numbers with
+a comma”, like 3.5). So we can write:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w">
+</span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">myName</span><span class="p">;</span>
+</pre>
+<p>to declare 3 variables, named “<tt class="docutils literal">i</tt>”, “<tt class="docutils literal">x</tt>” and “<tt class="docutils literal">myName</tt>”, and
+the respective types <tt class="docutils literal">int</tt>, <tt class="docutils literal">double</tt> and <tt class="docutils literal">int</tt>.</p>
+</div>
+<div class="section" id="built-in-types-in-java">
+<h1>Built-in types in Java</h1>
+<p>Java provides us with the following built-in types (non-exhaustive):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Type name</th>
+<th class="head">Set of allowed values</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">int</tt></td>
+<td>any integral values between -2147483648 (<span class="formula"> − 2<sup>31</sup></span>) and 2147483647 (<span class="formula">2<sup>31</sup> − 1</span>)</td>
+</tr>
+<tr><td><tt class="docutils literal">double</tt></td>
+<td>a finite number of approximations of real values between <span class="formula"> − 1.8×10<sup>308</sup></span> and <span class="formula"> + 1.8×10<sup>308</sup></span>, and representations for positive and negative infinities</td>
+</tr>
+<tr><td><tt class="docutils literal">boolean</tt></td>
+<td>either <tt class="docutils literal">true</tt> or <tt class="docutils literal">false</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">char</tt></td>
+<td>any valid <a class="reference external" href="https://en.wikipedia.org/wiki/Unicode">Unicode</a> character (65536 possible values)</td>
+</tr>
+<tr><td><tt class="docutils literal">byte</tt></td>
+<td>any integral value between -128 and 127</td>
+</tr>
+<tr><td><tt class="docutils literal">long</tt></td>
+<td>any integral value between <span class="formula"> − 2<sup>63</sup></span> and <span class="formula">2<sup>63</sup> − 1</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="values-for-variables-literal-forms">
+<h1>Values for variables, literal forms</h1>
+<p>Values can be stored in variables using either computations from other
+values and variables (eg. <tt class="docutils literal">a + b</tt>), or using a <em>literal form</em>: a
+value encoded directly in the program.</p>
+<p>Like for other language constructs, literal forms have a syntax and a semantics.</p>
+<p>Some examples:</p>
+<p><em>Literal integers</em>:</p>
+<blockquote>
+<p>Syntax: <sub>[</sub> <tt class="docutils literal">-</tt> <sub>]?</sub> &lt;digit&gt; <sub>[</sub> &lt;digit&gt; <sub>]*</sub></p>
+<p>(An optional minus sign, followed by one or more digits)</p>
+<p>Semantics: the conventional arithmetic interpretation of the
+literal digits in base 10.</p>
+<p>Examples: <tt class="docutils literal"><span class="pre">-123</span></tt>, <tt class="docutils literal">0</tt>, <tt class="docutils literal">456</tt>.</p>
+</blockquote>
+<p><em>Literal Booleans</em>:</p>
+<blockquote>
+<p>Syntax: <tt class="docutils literal">true</tt></p>
+<p>Semantics: the Boolean “truth” value.</p>
+<p>Syntax: <tt class="docutils literal">false</tt></p>
+<p>Semantics: the Boolean “falsehood” value.</p>
+</blockquote>
+<p><em>Literal doubles</em>:</p>
+<blockquote>
+<p>Syntax: <sub>[</sub> &lt;sign&gt; <sub>]?</sub> <sub>[</sub> &lt;integer&gt; <sub>]?</sub> <sub>[</sub>
+<tt class="docutils literal">.</tt> &lt;integer&gt; <sub>]?</sub> <sub>[</sub> <tt class="docutils literal">e</tt> <sub>[</sub> &lt;sign&gt; <sub>]?</sub> &lt;integer&gt; <sub>]?</sub>
+<sub>[</sub> <tt class="docutils literal">d</tt> <sub>]?</sub></p>
+<p>(An optional sign, followed by an optional integer, followed optionally by
+a dot and an integer, followed optionally by “<tt class="docutils literal">e</tt>”, an optional sign and an integer,
+the entire form optionally terminated by the letter “<tt class="docutils literal">d</tt>”; the <tt class="docutils literal">d</tt> is only optional
+if there is a dot “<tt class="docutils literal">.</tt>” already in the form)</p>
+<p>Semantics: the conventional scientific interpretation of the
+number in base 10; with the number after <tt class="docutils literal">e</tt> used as a power multiplier.</p>
+<p>Examples: <tt class="docutils literal">0d</tt>, <tt class="docutils literal"><span class="pre">-1d</span></tt>, <tt class="docutils literal">.5d</tt>, <tt class="docutils literal">0.123</tt>, <tt class="docutils literal">3.14e20</tt> (means <span class="formula">3.14×10<sup>20</sup></span>).</p>
+</blockquote>
+</div>
+<div class="section" id="assignments-and-type-compatibility-casts">
+<h1>Assignments and type compatibility, casts</h1>
+<p>What happens if the value on the right side of an assignment is
+not part of the set of possible values for the variable on the left?</p>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">
+</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.1415</span><span class="p">;</span>
+</pre>
+<p>(the <tt class="docutils literal">double</tt> approximation of 3.1415 is not an integral number, so
+it cannot directly fit in <tt class="docutils literal">x</tt>)</p>
+<p>In general, if the value on the right is of a different type than
+the value on the left, the following rules apply:</p>
+<ul>
+<li><p class="first">if the set defined by the type on the right is a subset of the set
+defined by the type on the left, we say that “the type on the right
+is <em>compatible</em> with the assignment” and the assignment
+works as expected. For example:</p>
+<pre class="code java literal-block">
+<span class="kt">double</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w">
+</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="p">;</span>
+</pre>
+<p>here the value of “<tt class="docutils literal">123</tt>” has type <tt class="docutils literal">int</tt> which is different from
+<tt class="docutils literal">double</tt> on the left, but since the set of values for <tt class="docutils literal">int</tt> is
+contained in the set of values for <tt class="docutils literal">double</tt> the assignment can
+proceed silently.</p>
+</li>
+<li><p class="first">if the set on the right is not included in the set on the left, the
+language processor <em>rejects</em> the assignment with a conversion
+error. This is what happens with “<tt class="docutils literal">int x = 3.1415;</tt>” above.</p>
+</li>
+</ul>
+<p>Sometimes, the need arises to <em>force an assignment</em>: when the programmer
+knows better than the language that a specific expression on the right
+will always evaluate to a value that happens to fit on the left, or
+when the programmer wants to force an approximation of a value.</p>
+<p>The main Java construct to force an assignment is inherited from C and
+C++, and defined as follows:</p>
+<p><em>Cast expression</em>:</p>
+<blockquote>
+<p>Syntax: <tt class="docutils literal">(</tt> &lt;type&gt; <tt class="docutils literal">)</tt> &lt;expression&gt;</p>
+<p>(An opening parenthesis, followed by a type, followed by a closing
+parenthesis, followed by an expression)</p>
+<p>Semantics: the expression on the right is evaluated. Then its value
+is forcefully transformed into the type specified on the left. The
+resulting value is compatible with the new type.</p>
+<p>The conversion can incur an approximation, for example converting
+from <tt class="docutils literal">double</tt> to <tt class="docutils literal">int</tt> will round the number by removing the
+digits after the comma.</p>
+</blockquote>
+<p>Example:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">
+</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="mf">3.1415</span><span class="p">;</span>
+</pre>
+<p>The value of “3.1415” is first forced into type <tt class="docutils literal">int</tt> by rounding
+down to 3, so it becomes compatible with the assignment which can
+then proceed silently.</p>
+</div>
+<div class="section" id="assignments-and-declarations">
+<h1>Assignments and declarations</h1>
+<p>The simple assignment statement in Java is defined with a semicolon:</p>
+<p><em>Assignment statement:</em></p>
+<blockquote>
+<p>Syntax: &lt;identifier&gt; <tt class="docutils literal">=</tt> &lt;expression&gt; <tt class="docutils literal">;</tt></p>
+<p>(An identifier, followed by one “<tt class="docutils literal">=</tt>” sign, followed by an expression, followed by a semicolon)</p>
+<p>Semantics: evaluate the expression on the right, then assign the
+result to the variable designated by the name on the left.</p>
+</blockquote>
+<p>Using the constructs seen so far it becomes easy to read the following examples:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w">
+</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="p">;</span><span class="w">
+
+</span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">
+</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.1415</span><span class="p">;</span>
+</pre>
+<p>This combination of a declaration followed by an assignment is so common that
+Java also provides a <em>combined form</em>. This is defined as follows:</p>
+<p><em>Combined declaration and assignment</em>:</p>
+<blockquote>
+<p>Syntax: &lt;type&gt; &lt;identifier&gt; <tt class="docutils literal">=</tt> &lt;expression&gt; <tt class="docutils literal">;</tt></p>
+<p>Semantics: this form is equivalent to: &lt;type&gt; &lt;identifier&gt; <tt class="docutils literal">;</tt>
+&lt;identifier&gt; <tt class="docutils literal">=</tt> &lt;expression`` <tt class="docutils literal">;</tt></p>
+<p>Examples: <tt class="docutils literal">int i = 123;</tt> or <tt class="docutils literal">double x = 3.1415;</tt></p>
+</blockquote>
+<p>There are many combined forms in Java that correspond to
+the combinations of constructs most often used by Java programmers.
+We will introduce many of them step by step during the course.</p>
+<p>Another combination that is so common it deserves mention here already is when
+multiple variables are declared together with the same type:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+</pre>
+<p>For this Java proposes the following:</p>
+<p><em>Combined declaration of multiple variables</em>:</p>
+<blockquote>
+<p>Syntax: &lt;type&gt; &lt;identifier&gt; <sub>[</sub> <tt class="docutils literal">=</tt> &lt;expression&gt; <sub>]?</sub>
+<sub>[</sub> <tt class="docutils literal">,</tt> &lt;identifier&gt; <sub>[</sub> <tt class="docutils literal">=</tt> &lt;expression&gt; <sub>]?</sub>
+<sub>]*</sub> <tt class="docutils literal">;</tt></p>
+<p>(A type, followed by an identifier, followed optionally by <tt class="docutils literal">=</tt>
+and an expression, followed by a repetition of zero or more
+occurrences of a comma and an identifier followed optionally by <tt class="docutils literal">=</tt> and an
+expression, the whole eventually terminated by a semicolon)</p>
+<p>Semantics: equivalent to &lt;type&gt; &lt;identifier&gt; <sub>[</sub> <tt class="docutils literal">=</tt>
+&lt;expression&gt; <sub>]?</sub> <tt class="docutils literal">;</tt> repeated once for every
+identifier-expression pair in the comma-separated list.</p>
+<p>Example: <tt class="docutils literal">int i = 1, j, k = 2;</tt> is equivalent to the 3
+declarations above.</p>
+</blockquote>
+</div>
+<div class="section" id="important-concepts">
+<h1>Important concepts</h1>
+<ul class="simple">
+<li><em>variables</em> and <em>types</em></li>
+<li><em>set of allowed values for a type</em></li>
+<li><em>built-in</em> types</li>
+<li><tt class="docutils literal">int</tt>, <tt class="docutils literal">double</tt></li>
+<li>type <em>compatibility</em>  in assignments (general concept)</li>
+<li><em>cast expression</em></li>
+<li><em>combined form</em> (general concept)</li>
+<li><em>combined declaration and assignment</em></li>
+<li><em>combined declaration of multiple variables</em></li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1>Further reading</h1>
+<ul class="simple">
+<li>Absolute Java, section 1.2 (pp 16-23) and sections 3.1-3.2 (pp. 25-27)</li>
+<li>Introduction to Programming, sections 2.2.2 and 2.2.3 (pp. 25-27)</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1>Copyright and licensing</h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>

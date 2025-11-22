@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>Introduction to objects</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="introduction-to-objects">
+<h1 class="title">Introduction to objects</h1>
+
+<div class="section" id="history-and-motivation">
+<h1>History and motivation</h1>
+<p>Internally computers execute instruction one after another, and
+manipulate raw bits of data in memory. The addition of names,
+functions, variables etc in programming language is meant to <em>help
+programmers to do their job better</em>, not the computer.</p>
+<p>When the first computers were built, the people in charge of designing
+programming languages started with very simple features: variables,
+arrays, procedures. All the entities named in a program existed side
+by side, so <em>programmers had to choose a different name for every new
+entity</em>. This early requirement that all names must be different
+wasn't a problem initially, when there were only few entities in a
+computer. However as software engineering matured, software became
+more and more complex and it became difficult for human programmers to
+keep track of the names of everything.</p>
+<p>In order to create a more productive structure for programmers,
+computer scientists in the 1970's have invented a new way to think
+about programs.</p>
+<p>In their view, programmers should imagine that they are writing code
+for a large collection of many micro-computers, where each
+micro-computer would only perform a very simple task with very few
+variables.  This way, it was thought, the human programmer could do a
+better job, because on each of these micro-computers the programmer
+could focus on performing only one task, and doing it well.</p>
+<p>Also,
+because each of these micro-computers would have its own procedures
+and variables, the programmer did not need to invent new names all the
+time: <em>the same name could designate different things</em> on different
+micro-computers. Using this abstraction, a large software application
+can be built by connecting multiple such micro-computers together in a
+network and sending messages between them.</p>
+<p>For example, this was very powerful to write programs that simulate
+traffic on the road: one would program a micro-computer to simulate
+the behavior of one car, then another for another car, and so on, then
+one micro-computers per road segment, and each could be programmed
+separately. In two different cars, the same variable name “speed”
+could be reused to designate each car's speed. The messages between a
+“car” micro-computer and a “street” micro-computer would be “the car
+has entered this streed” or “the car has left this street”. With this
+simple composition, the entire program could then imitate a complex
+traffic situation, and each individual part could be very simply
+implemented without requiring the programmer to know about the complex
+whole.</p>
+<p>As it so happens, this idea was very successful. Programming in this
+way did indeed increase the productivity of programmers and enable
+more complex applications that worked with fewer errors.</p>
+<p>The micro-computers in this story are what are now called <em>objects</em>: a
+<em>small unit of behavior</em> in a large computer system with its own
+variables and procedures, and <em>where names can have a local meaning
+which differs across different objects.</em></p>
+</div>
+<div class="section" id="object-oriented-languages">
+<h1>Object-oriented languages</h1>
+<p>A programming language is said to be “object-oriented” when it
+promotes thinking in terms of objects when writing code. A further
+distinction is made between:</p>
+<ul class="simple">
+<li>languages that <em>support object orientation as an opt-in feature</em>,
+where programmers can ignore object orientation when starting to
+write code, and only use objects in some cases; this is the case for
+most programming languages, including C, C++, Python, PHP, OCaml, Matlab,
+R;</li>
+<li>languages that are <em>exclusively object-oriented</em>, where a programmer
+can only write code in terms of objects; this is the case with e.g.
+Smalltalk and Java.</li>
+</ul>
+<p>In general, <em>an introductory course on programming should not use a
+language that is exclusively object-oriented</em> because it forces a
+teacher to talk about objects before talking about more important
+topics, like task decomposition, typing, etc. However, perhaps
+unfortunately, your education program requires us to start with Java,
+so you need to start caring about objects right now, next to the
+other topics which are independent from objects.</p>
+</div>
+<div class="section" id="starting-with-java-s-objects">
+<h1>Starting with Java's objects</h1>
+<p>Because programmers usually write complex programs that do not use
+only one object, but rather many of them side by side, it is more practical
+to express in program code <em>how an entire family of objects should behave</em>, instead
+of writing the same code over and over for every object.</p>
+<p>This generalization is so important that all object-oriented languages
+are designed with this in mind. So the primary construct in the
+language is not the object, but rather <em>the set of all possible
+objects that belong to the same family</em>. This set is then described in
+code as a <em>class</em>.</p>
+<p>In other words, a <em>class is a type which describes a set of all
+possible objects that share a common behavior</em>. For example in the
+traffic simulation mentioned above, “car” is a class, which describes
+the behavior of every possible car in a general way.</p>
+<p>We will see more of objects and classes in a later lecture;
+for now you can simply remember that a class is defined in Java  using the following construct:</p>
+<p><em>Class definition</em>:</p>
+<blockquote>
+<p>Syntax:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal">class</tt> &lt;identifier&gt; <tt class="docutils literal">{</tt></div>
+<div class="line-block">
+<div class="line-block">
+<div class="line"><sub>[</sub></div>
+<div class="line-block">
+<div class="line"><sub>[</sub> &lt;variable/attribute declaration&gt; <sub>]*</sub></div>
+<div class="line"><sub>[</sub> &lt;function/method definition&gt; <sub>]*</sub></div>
+</div>
+<div class="line"><sub>]*</sub></div>
+</div>
+<div class="line"><tt class="docutils literal">}</tt></div>
+</div>
+</div>
+<p>(The keyword “<tt class="docutils literal">class</tt>”, followed by an identifier, followed by an
+opening brace, followed by zero or more variable and/or method
+definition(s), followed by a closing brace)</p>
+<p>Semantics: this construct defines a class named by the identifier
+at the top, so that all objects created in this class have
+their own copy of the variables but share the same method code.</p>
+</blockquote>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="kd">class</span> <span class="nc">Car</span><span class="w"> </span><span class="p">{</span><span class="w">
+     </span><span class="kt">double</span><span class="w"> </span><span class="n">mass</span><span class="p">;</span><span class="w">
+     </span><span class="kt">double</span><span class="w"> </span><span class="n">speed</span><span class="p">;</span><span class="w">
+
+     </span><span class="kt">void</span><span class="w"> </span><span class="nf">accelerate</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">force</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">timeDelta</span><span class="p">)</span><span class="w">
+     </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>The variables defined inside a class are called <em>attributes</em>. The
+procedures or functions defined inside a class are called <em>methods</em>.
+The previous <tt class="docutils literal">Car</tt> example has two attributes <tt class="docutils literal">mass</tt> and <tt class="docutils literal">speed</tt>
+and one method <tt class="docutils literal">accelerate</tt>.</p>
+<p>Attributes are “inside” every object created from the class: two
+different objects will have two different sets of variables.</p>
+<p>The “methods” are connected to the idea of exchanging messages between
+objects as explained above: an object can “send” a message to another,
+and this will cause the execution of the corresponding method on the
+target object. The general construct for this is defined as follows:</p>
+<p><em>Method invocation:</em></p>
+<blockquote>
+<p>Syntax:</p>
+<blockquote>
+&lt;expression&gt; <tt class="docutils literal">.</tt> &lt;identifier&gt; <tt class="docutils literal">(</tt> <sub>[</sub> &lt;expression&gt; <sub>[</sub> <tt class="docutils literal">,</tt> &lt;expression&gt; <sub>]*</sub> <sub>]?</sub> <tt class="docutils literal">)</tt></blockquote>
+<p>(An expression, followed by a dot <tt class="docutils literal">.</tt>, followed by a name,
+followed by an opening parenthesis, followed by zero or more
+expressions separated by commas, followed by a closing parenthesis)</p>
+<p>Semantics: evaluate all the expressions, then send a message to the
+object identifed by the first expression, that causes the
+procedure/function named by the name in 2nd position, inside the
+object class, to be called on the target object, with the remaining
+expressions as input arguments.</p>
+</blockquote>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">)</span>
+</pre>
+<p>This evaluates first “<tt class="docutils literal">out</tt>”, which designates an object of class
+<tt class="docutils literal">PrintStream</tt>; then sends a message to the object <tt class="docutils literal">out</tt> which causes its
+method <tt class="docutils literal">println</tt> to be called with one argument, the string “hello”.</p>
+</div>
+<div class="section" id="program-start-up-and-execution-order">
+<h1>Program start-up and execution order</h1>
+<p>There is a clear advantage to programming languages that are not
+exclusively object-oriented: it is easy to understand where the
+program starts. It is quite simple: the first line in the program text
+is typically the first thing that runs when the execution begins.</p>
+<p>This simplicity implies that a programmer can literally write the
+code in the same order it will be run, which makes the task
+of a beginner programmer quite comfortable.</p>
+<p>Unfortunately this is not possible in languages that are exclusively
+object-oriented: the first line of a program there typically has
+nothing to do with program execution, but rather the definition of
+classes.</p>
+<p><em>So how does Java, for example, know where the program starts?</em></p>
+<p>The rule is quite simple: Java will look at all classes defined
+in the application (there may be more than one), and <em>searches
+for a class which has a special method called “main”</em>. If
+none is found, the program cannot start; if one is found,
+the execution starts there.</p>
+<p>This method is “special” because it must be introduced
+in a very specific way, which is waaaay more complicated
+than most the  “regular” functions/procedures  you will
+ever use in your own programs:</p>
+<pre class="code java literal-block">
+<span class="kd">class</span> <span class="nc">HelloWorld</span><span class="w"> </span><span class="p">{</span><span class="w">
+
+     </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+         </span><span class="p">...</span><span class="w">
+     </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>We will explain the “<tt class="docutils literal">public static void</tt>” and the “<tt class="docutils literal">String[]</tt>”
+later; for the time being, just remember that “main” must always have
+this specific form.</p>
+</div>
+<div class="section" id="to-summarize">
+<h1>To summarize</h1>
+<p>Objects and classes will be presented in more details in a later lecture.
+For the time being, <strong>just remember the following</strong>:</p>
+<ul class="simple">
+<li>because you are using Java, your entire program must be structured
+using classes;</li>
+<li>a class begins with “<tt class="docutils literal">class</tt> YourName <tt class="docutils literal">{</tt>” and ends with
+“<tt class="docutils literal">}</tt>”, <em>this will be mandatory in all your Java code</em>;</li>
+<li>all variables and function/procedures in Java must be part of a
+class, written within the braces;</li>
+<li>at least one class in your program must have a “<tt class="docutils literal">main</tt>” method,
+with a fixed form constrained by the language.</li>
+</ul>
+</div>
+<div class="section" id="important-concepts">
+<h1>Important concepts</h1>
+<ul class="simple">
+<li>programming languages exist to help programmers, not computers;</li>
+<li>choosing many different names is hard;</li>
+<li><em>objects</em> define small unit of behavior in a large system;</li>
+<li>object orientation was successful because thinking in terms
+of objects decreases the naming problem and simplifies
+the definition of complex programs;</li>
+<li>the difference between object orientation as an opt-in feature (most languages)
+and exclusive object orientation (Java, Smalltalk, a few others);</li>
+<li>a <em>class</em> is a common definition for a family of objects;</li>
+<li><em>attribute</em> = variable inside a class;</li>
+<li><em>method</em> = function/procedure inside a class;</li>
+<li>in Java all program behavior must be part of a class;</li>
+<li>there must be a “main” method somewhere.</li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1>Further reading</h1>
+<ul class="simple">
+<li>Introduction to Programming, sections 1.4-1.5 (pp. 8-13)</li>
+<li>Think Java, sections 15.1-15.2 (pp. 193-194)</li>
+<li>Absolute Java, section 1.1 (pp. 2-4)</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1>Copyright and licensing</h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>

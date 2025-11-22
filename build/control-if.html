@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>Control structures: if</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="control-structures-if">
+<h1 class="title">Control structures: if</h1>
+
+<p>Like a recipe tells the cook what to do, a program tells the computer
+what to do; in <em>imperative languages</em> like Java, lines in the program are
+imperative <em>statements</em> and you can imagine the computer running the
+program by pointing to each line in turn, like a cook follows the
+statements one after the other.</p>
+<p>In a recipe, sometimes you find conditional instructions: “if you
+have parsley available, use three ounces of parsley; otherwise, use a
+branch of thyme.” This instructs the cook to do different things
+depending on what he/she has available at the moment the recipe is used.</p>
+<p>The corresponding construct in imperative language is the <em>conditional
+statement</em>, defined as follows:</p>
+<p><em>Conditional statement:</em></p>
+<blockquote>
+<p>Syntax:</p>
+<blockquote>
+<p><tt class="docutils literal">if</tt> <tt class="docutils literal">(</tt> &lt;expression&gt; <tt class="docutils literal">)</tt>  &lt;block-or-statement&gt;</p>
+<p><sub>[</sub> <tt class="docutils literal">else</tt> &lt;block-or-statement&gt; <sub>]?</sub></p>
+<p>(the keyword “<tt class="docutils literal">if</tt>” followed by an expression between
+parentheses, followed by either a statement block between
+“<tt class="docutils literal">{</tt>” and “<tt class="docutils literal">}</tt>” or a single statement, followed optionally
+by the keyword “<tt class="docutils literal">else</tt>”, followed by either a statement
+block or a single statement.)</p>
+</blockquote>
+<p>Semantics:</p>
+<blockquote>
+The expression between parentheses, also called
+<em>conditional expression</em>, is evaluated first. If its value is equivalent to
+<tt class="docutils literal">true</tt>, the first block-or-statement is executed, otherwise, the
+first block-or-statement is skipped, and if there is a “<tt class="docutils literal">else</tt>” part, its
+block-or-statement is executed instead.</blockquote>
+</blockquote>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;x is positive&quot;</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>(if x is positive, the program prints “x is positive”; otherwise, nothing is printed)</p>
+<p>or:</p>
+<pre class="code java literal-block">
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;x is positive&quot;</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="k">else</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;x is zero or negative&quot;</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>(if x is positive, the program prints “x is positive”; otherwise, the
+program prints “x is zero or negative”)</p>
+<div class="section" id="relational-operators">
+<h1>Relational operators</h1>
+<p>The condition can contain any <em>expression</em>, or formula, that computes
+a value that is either “true” or “false”. For this you can use the
+following operators in most programming languages, also called <em>relational
+operators</em>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Operator</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">x == y</tt></td>
+<td>tests if x is equal to y</td>
+</tr>
+<tr><td><tt class="docutils literal">x != y</tt></td>
+<td>tests if x is different from y</td>
+</tr>
+<tr><td><tt class="docutils literal">x &gt; y</tt></td>
+<td>tests if x is strictly greater than y</td>
+</tr>
+<tr><td><tt class="docutils literal">x &lt; y</tt></td>
+<td>tests if x is strictly lower than y</td>
+</tr>
+<tr><td><tt class="docutils literal">x &gt;= y</tt></td>
+<td>tests if x is greater or equal to y</td>
+</tr>
+<tr><td><tt class="docutils literal">x &lt;= y</tt></td>
+<td>tests if x is lower or equal to y</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Beware of the difference between the single “<tt class="docutils literal">=</tt>” and the
+double “<tt class="docutils literal">==</tt>”. The first is the <em>assignment</em> operator, and “<tt class="docutils literal">x =
+3</tt>” means “change the value of the variable <tt class="docutils literal">x</tt> to become 3”;
+the second is the <em>test for equality</em> operator, and “<tt class="docutils literal">x == 3</tt>”
+means “test whether the value of variable <tt class="docutils literal">x</tt> is equal to 3”.</p>
+</div>
+<p>In Java, the relational operators are designed primarily to compare
+numbers; in particular you cannot use them to compare character
+strings (<tt class="docutils literal">String</tt>). You will see later how to compare strings in
+Java.</p>
+<p>Also, you must compare things that are comparable; in particular,
+<em>both sides must have comparable types</em>. For example it is not
+possible in Java to compare a value of type <tt class="docutils literal">int</tt> with a value of
+type <tt class="docutils literal">double</tt>. When in doubt, always ensure both sides have the same
+type.</p>
+</div>
+<div class="section" id="nested-conditionals">
+<h1>Nested conditionals</h1>
+<p>The one or two “branches” of a <tt class="docutils literal">if</tt> statement are themselves
+statements, so we can combine a <tt class="docutils literal">if</tt> inside an <tt class="docutils literal">if</tt>.
+This is called <em>nesting</em>: using a control structure “inside” of another.
+For example:</p>
+<pre class="code java literal-block">
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;x is zero&quot;</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="k">else</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;x is positive&quot;</span><span class="p">);</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+   </span><span class="k">else</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;x is negative&quot;</span><span class="p">);</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>In this example, the expression “<tt class="docutils literal">x == 0</tt>” is first evaluated. If it
+is true, the first message is printed. Otherwise, the second <tt class="docutils literal">if</tt> is
+executed and the expression “<tt class="docutils literal">x &gt; 0</tt>” is evaluated. If it is true,
+the 2nd message is printed. Otherwise, the 3rd message is printed. In
+this example, the 2nd <tt class="docutils literal"><span class="pre">if-else</span></tt> construct is <em>nested</em> within the 1st
+<tt class="docutils literal"><span class="pre">if-else</span></tt> construct; more specifically it is nested in its “else
+branch”.</p>
+</div>
+<div class="section" id="conjunction-disjunction-and-negation">
+<h1>Conjunction, disjunction and negation</h1>
+<p>Say you want to write a program that prints a message “working age” if
+the age of a person is between 18 and 67. The relational operators
+seen above only have 2 operands left and right; to establish within
+the age falls within the range, you must thus combine two different
+conditions. For example:</p>
+<pre class="code java literal-block">
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">18</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">67</span><span class="p">)</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+       </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;working age&quot;</span><span class="p">);</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>This type of combination, called a <em>logical conjunction</em>, or “AND
+relation”, happens so often in programs that most languages have a simplified
+notation; in Java this is noted “<tt class="docutils literal">&amp;&amp;</tt>”:</p>
+<pre class="code java literal-block">
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">18</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">67</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+       </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;working age&quot;</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="30%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Value of <tt class="docutils literal">x</tt></th>
+<th class="head">Value of <tt class="docutils literal">y</tt></th>
+<th class="head">Value of <tt class="docutils literal">x &amp;&amp; y</tt></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>false</td>
+<td>N/A</td>
+<td>false</td>
+</tr>
+<tr><td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr><td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+<p>Similarly, say you want to offer a reduced price for people under 18
+or above 67. For this you need a <em>logical disjunction</em>, or “OR
+relation”. In Java, another operator exists for this and is noted
+“<tt class="docutils literal">||</tt>”:</p>
+<pre class="code java literal-block">
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">18</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">67</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+       </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;reduced price&quot;</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="30%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Value of <tt class="docutils literal">x</tt></th>
+<th class="head">Value of <tt class="docutils literal">y</tt></th>
+<th class="head">Value of <tt class="docutils literal">x || y</tt></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr><td>false</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr><td>true</td>
+<td>N/A</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+<p>To complete this set of logical operators, programming languages
+almost always also provide a general operator that “inverts” the truth
+value of a condition. This is called <em>negation</em>; in Java, this is
+noted using an exclamation mark (“<tt class="docutils literal">!</tt>”) followed by the condition to
+invert:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Example</th>
+<th class="head">Equivalent to</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">!(x == y)</tt></td>
+<td><tt class="docutils literal">x != y</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">!(x != y)</tt></td>
+<td><tt class="docutils literal">x == y</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">!(x &lt; y)</tt></td>
+<td><tt class="docutils literal">x &gt;= y</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">!(x &amp;&amp; y)</tt></td>
+<td><tt class="docutils literal">(!x) || (!y)</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">!(x || y)</tt></td>
+<td><tt class="docutils literal">(!x) &amp;&amp; (!y)</tt></td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Value of <tt class="docutils literal">x</tt></th>
+<th class="head">Value of <tt class="docutils literal">!x</tt></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>true</td>
+<td>false</td>
+</tr>
+<tr><td>false</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="important-concepts">
+<h1>Important concepts</h1>
+<ul class="simple">
+<li><em>conditional statement</em></li>
+<li>syntax and semantics of <tt class="docutils literal">if</tt> ... <tt class="docutils literal">else</tt></li>
+<li>relational operators: <tt class="docutils literal">==</tt>, <tt class="docutils literal">!=</tt>, <tt class="docutils literal">&lt;</tt>, <tt class="docutils literal">&gt;</tt>, <tt class="docutils literal">&lt;=</tt>, <tt class="docutils literal">&gt;=</tt></li>
+<li>difference between “<tt class="docutils literal">=</tt>” and “<tt class="docutils literal">==</tt>”</li>
+<li>relational operators designed to work on numbers, in particular <em>cannot use on strings</em></li>
+<li><em>nesting</em></li>
+<li><em>conjunction</em> “<tt class="docutils literal">&amp;&amp;</tt>”, <em>disjunction</em> “<tt class="docutils literal">||</tt>”</li>
+<li><em>negation</em> with “<tt class="docutils literal">!</tt>”</li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1>Further reading</h1>
+<ul class="simple">
+<li>Think Java, sections 4.1-4.5 (pp. 39-42), section 6.6 (pp 62-63)</li>
+<li>Programming in Java, sections 3.1.1 (pp. 67-68), 3.1.3 (pp. 71-73), 3.5 (pp. 96-104)</li>
+<li>Absolute Java, section 3.1 (pp. 100-106)</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1>Copyright and licensing</h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>

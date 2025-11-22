@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>Control structures: switch</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="control-structures-switch">
+<h1 class="title">Control structures: switch</h1>
+
+<p>As explained previously, one can use the <tt class="docutils literal">if</tt> control structure to
+conditionally perform a computation. If there are many different
+conditions to handle, the program quickly becomes complex.</p>
+<p>For example, consider the task of writing a function which, for a
+given month number returns the number of days in
+this month, or -1 if the month number is invalid. For this we can use the following code:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="nf">daysInMonth</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">month</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="p">;</span><span class="w">
+
+   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">28</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">9</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">11</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">12</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w">
+
+   </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>We can try to “compress” this function using compound tests, as follows:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="nf">daysInMonth</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">month</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="p">;</span><span class="w">
+
+   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">5</span><span class="w">
+     </span><span class="o">||</span><span class="w"> </span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">10</span><span class="w">
+     </span><span class="o">||</span><span class="w"> </span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">12</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">9</span><span class="w">
+          </span><span class="o">||</span><span class="w"> </span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">11</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">28</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w">
+      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>Yet although this code is shorter, it is not particularly more readable.</p>
+<p>To simplify this situation, different languages offer different solutions;
+however they are all based on the same general idea, called a <em>multi-way branch</em>:</p>
+<ul class="simple">
+<li>at the top, you write only once the variable containing the value to
+test;</li>
+<li>on subsequent lines, you write the different values that are
+recognized, and next to this what needs to be done in each case.</li>
+</ul>
+<p>The particular multi-way branch construct offered by Java is inherited
+from the C language; it is called the <em>switch statement</em>. It is defined as follows:</p>
+<p><em>Switch statement</em>:</p>
+<blockquote>
+<p>Syntax:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal">switch</tt> <tt class="docutils literal">(</tt> &lt;expression&gt; <tt class="docutils literal">)</tt> <tt class="docutils literal">{</tt></div>
+<div class="line-block">
+<div class="line"><sub>[</sub></div>
+<div class="line-block">
+<div class="line"><sub>[</sub> <tt class="docutils literal">case</tt> &lt;constant value&gt; <tt class="docutils literal">:</tt> <sub>]*</sub></div>
+<div class="line-block">
+<div class="line"><sub>[</sub> &lt;statement&gt; <sub>]*</sub></div>
+</div>
+</div>
+<div class="line"><sub>]*</sub></div>
+<div class="line-block">
+<div class="line"><sub>[</sub> <tt class="docutils literal">default :</tt> <sub>]?</sub></div>
+<div class="line-block">
+<div class="line"><sub>[</sub> &lt;statement&gt; <sub>]*</sub></div>
+</div>
+</div>
+</div>
+<div class="line"><tt class="docutils literal">}</tt></div>
+</div>
+<p>(the “<tt class="docutils literal">switch</tt>” keyword, followed by an expression between
+parentheses, followed by an opening brace, followed by zero or
+more occurrences of zero or more “<tt class="docutils literal">case</tt>” and zero or more
+statements, followed by an optional <tt class="docutils literal">default:</tt> followed by
+zero or more statements, followed by a closing brace).</p>
+<p>Semantics: the expresssion at the top is evaluated. Then the flow
+of control is transferred to the <em>case label</em> that matches the value
+of the expression; or to the <tt class="docutils literal">default</tt> label if no label matches
+the expression.</p>
+</blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A “case label” is a construct of the form “<tt class="docutils literal">case</tt> &lt;value&gt;”.</p>
+</div>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="nf">daysInMonth</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">month</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+       </span><span class="k">case</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="mi">3</span><span class="p">:</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="mi">5</span><span class="p">:</span><span class="w">
+       </span><span class="k">case</span><span class="w"> </span><span class="mi">7</span><span class="p">:</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="mi">8</span><span class="p">:</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="mi">10</span><span class="p">:</span><span class="w">
+       </span><span class="k">case</span><span class="w"> </span><span class="mi">12</span><span class="p">:</span><span class="w">
+          </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span><span class="w">
+          </span><span class="k">break</span><span class="p">;</span><span class="w">
+       </span><span class="k">case</span><span class="w"> </span><span class="mi">4</span><span class="p">:</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="mi">6</span><span class="p">:</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="mi">9</span><span class="p">:</span><span class="w">
+       </span><span class="k">case</span><span class="w"> </span><span class="mi">11</span><span class="p">:</span><span class="w">
+          </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w">
+          </span><span class="k">break</span><span class="p">;</span><span class="w">
+       </span><span class="k">case</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span><span class="w">
+          </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">28</span><span class="p">;</span><span class="w">
+          </span><span class="k">break</span><span class="p">;</span><span class="w">
+       </span><span class="k">default</span><span class="p">:</span><span class="w">
+          </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>This example uses one <tt class="docutils literal">switch</tt> with 12 case labels and a <tt class="docutils literal">default</tt>
+label.</p>
+<p>Note how each case uses the “<tt class="docutils literal">break</tt>” statement. To understand why,
+read the “semantics” definition above: control is transferred to the
+label that matches, but then <em>the flow of control continues</em> within
+the <tt class="docutils literal">switch</tt> statement, <em>even into the next cases</em>.</p>
+<p>For example with the following code:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">
+</span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+   </span><span class="k">case</span><span class="w"> </span><span class="mi">3</span><span class="p">:</span><span class="w">
+      </span><span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;three&quot;</span><span class="p">);</span><span class="w">
+   </span><span class="k">case</span><span class="w"> </span><span class="mi">5</span><span class="p">:</span><span class="w">
+      </span><span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;four&quot;</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>this code would print “three” but also “four”: once the flow of
+control jumps to the case label “<tt class="docutils literal">case 3</tt>”, it continues uninterrupted
+until the end of the <tt class="docutils literal">switch</tt> statement. In order to ensure
+only the code for “<tt class="docutils literal">case 3</tt>” runs, you need to add <tt class="docutils literal">break</tt> as follows:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">
+</span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+   </span><span class="k">case</span><span class="w"> </span><span class="mi">3</span><span class="p">:</span><span class="w">
+      </span><span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;three&quot;</span><span class="p">);</span><span class="w">
+      </span><span class="k">break</span><span class="p">;</span><span class="w">
+   </span><span class="k">case</span><span class="w"> </span><span class="mi">5</span><span class="p">:</span><span class="w">
+      </span><span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;four&quot;</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<div class="section" id="limitations-of-switch-in-java">
+<h1>Limitations of <tt class="docutils literal">switch</tt> in Java</h1>
+<p>For historical reasons, <tt class="docutils literal">switch</tt> in Java can only be used with very
+few data types in the condition. The full list of types that can be
+used with <tt class="docutils literal">switch</tt> is:</p>
+<ul class="simple">
+<li><tt class="docutils literal">int</tt>;</li>
+<li><tt class="docutils literal">String</tt>;</li>
+<li><tt class="docutils literal">byte</tt>, <tt class="docutils literal">short</tt>, <tt class="docutils literal">char</tt>;</li>
+<li>enumerated types (we will cover this later);</li>
+<li>a few special object classes that wrap around primitive types:
+<tt class="docutils literal">Character</tt>, <tt class="docutils literal">Byte</tt>, <tt class="docutils literal">Short</tt>, and <tt class="docutils literal">Integer</tt>.</li>
+</ul>
+<p>In particular, <tt class="docutils literal">switch</tt> <em>cannot match approximate real values</em> of
+type <tt class="docutils literal">float</tt> or <tt class="docutils literal">double</tt>. If you must write a complex condition using values
+of these types, you are limited to using <tt class="docutils literal">if</tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This limitation is a restriction historically inherited
+from C. Many other programming languages have more comprehensive
+multi-way branches that can match on many more types. <strong>When
+learning a new programming language, pay special attention to which
+multi-way branches it supports.</strong> This is important as it will
+greatly enhance your productivity when writing your own code.</p>
+</div>
+</div>
+<div class="section" id="important-concepts">
+<h1>Important concepts</h1>
+<ul class="simple">
+<li><em>multi-way branching</em>;</li>
+<li>the <em>switch statement</em>;</li>
+<li><em>case labels</em>;</li>
+<li>why <tt class="docutils literal">break</tt> is necessary;</li>
+<li>which data types are compatible with <tt class="docutils literal">switch</tt>.</li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1>Further reading</h1>
+<ul class="simple">
+<li>Absolute Java, chapter 3 (pp. 107-112)</li>
+<li>Introduction to Programming, section 3.6 (pp. 104-109)</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1>Copyright and licensing</h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>

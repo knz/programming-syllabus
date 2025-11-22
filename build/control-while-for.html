@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>Control structures: while and for</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="control-structures-while-and-for">
+<h1 class="title">Control structures: while and for</h1>
+
+<p>In a recipe, sometimes you find repetition instructions, for example:
+“add salt and pepper until seasoned.” When reading this, a cook
+understands that he/she must start adding a little salt and pepper,
+taste the result, then if the result is not yet satisfactory, add a
+little more and taste again, and so on.</p>
+<p>The corresponding construct in imperative language is the <em>iteration
+statement</em>. There are actually several of them.</p>
+<div class="section" id="simple-while-loop">
+<h1>Simple “while loop”</h1>
+<p>The simplest iteration statement is defined as follows:</p>
+<p><em>Iteration statement, variant 1</em> (also called “while loop”):</p>
+<blockquote>
+<p>Syntax:</p>
+<blockquote>
+<p><tt class="docutils literal">while</tt> <tt class="docutils literal">(</tt> &lt;expression&gt; <tt class="docutils literal">)</tt>  &lt;block-or-statement&gt;</p>
+<p>(the keyword “<tt class="docutils literal">while</tt>” followed by an expression between
+parentheses, followed by either a statement or block between
+“<tt class="docutils literal">{</tt>” and “<tt class="docutils literal">}</tt>”. The statement-or-block part is also
+called the <em>body</em> of the iteration statement.)</p>
+</blockquote>
+<p>Semantics:</p>
+<blockquote>
+The expression between parentheses, also called <em>conditional
+expression</em>, is evaluated first. If its value is equivalent to
+<tt class="docutils literal">true</tt>, the body is executed. Then the conditional
+expression it is evaluated again. If it is still true, the
+body is executed again. The construct continues to repeat the
+test and execution until the condition becomes false.</blockquote>
+</blockquote>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w">
+   </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;bye &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+</pre>
+<p>This program fragment prints the numbers from 1 to 100 on the standard
+output, followed by “bye 101”.</p>
+<p>Note that the condition is evaluated at the beginning. <em>If the
+condition is false when the while loop is first reached, the body is
+not executed at all.</em> For example:</p>
+<pre class="code java literal-block">
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">
+</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w">
+   </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;bye &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+</pre>
+<p>This program fragment only prints “bye 10”, because n is greater than
+5 when the while loop is reached during execution.</p>
+</div>
+<div class="section" id="condition-at-the-end-the-do-while-loop">
+<h1>Condition at the end, the “do-while loop”</h1>
+<p>The second iteration statement is defined as follows:</p>
+<p><em>Iteration statement, variant 2</em> (also called “do-while loop”):</p>
+<blockquote>
+<p>Syntax:</p>
+<blockquote>
+<p><tt class="docutils literal">do</tt> &lt;block-or-statement&gt; while <tt class="docutils literal">(</tt> &lt;expression&gt; <tt class="docutils literal">)</tt> <tt class="docutils literal">;</tt></p>
+<p>(the keyword “<tt class="docutils literal">do</tt>”, followed by either a statement or block
+between “<tt class="docutils literal">{</tt>” and “<tt class="docutils literal">}</tt>”, followed by the keyword
+“<tt class="docutils literal">while</tt>”, followed by an expression between parentheses,
+followed by a semicolon. The statement-or-block part is also
+called the <em>body</em> of the iteration statement.)</p>
+</blockquote>
+<p>Semantics:</p>
+<blockquote>
+The body is executed first.  The expression between
+parentheses, also called <em>conditional expression</em>, is then
+evaluated. If its value is equivalent to <tt class="docutils literal">true</tt>, the body is
+executed again. The construct continues to repeat the
+execution and test until the condition becomes false.</blockquote>
+</blockquote>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="k">do</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w">
+   </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span><span class="w">
+</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;bye &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+</pre>
+<p>This program fragment prints the numbers from 1 to 100 on the standard
+output, followed by “bye 101”.</p>
+<p>Note that the body is always executed once. For example:</p>
+<pre class="code java literal-block">
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">
+</span><span class="k">do</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w">
+   </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span><span class="w">
+</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;bye &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+</pre>
+<p>This program fragment prints 10, then “bye 11”.</p>
+<div class="section" id="when-to-choose-do-while-over-while">
+<h2>When to choose “do-while” over “while”?</h2>
+<p>When writing your own code, if you hesitate between “while” and
+“do-while” in some situation, you can apply the following technique:</p>
+<p>Start writing the code using “while”;
+then if you recognize the following pattern:</p>
+<blockquote>
+<p>&lt;action X&gt; <tt class="docutils literal">;</tt></p>
+<p><tt class="docutils literal">while (</tt> &lt;condition&gt; <tt class="docutils literal">) {</tt></p>
+<blockquote>
+&lt;action X&gt; <tt class="docutils literal">;</tt></blockquote>
+<p><tt class="docutils literal">}</tt></p>
+</blockquote>
+<p>In other word, you see a part of your program is duplicated just
+before the <tt class="docutils literal">while</tt> and within its body; then you can rewrite
+the code to use “do-while” instead:</p>
+<blockquote>
+<p><tt class="docutils literal">do {</tt></p>
+<blockquote>
+&lt;action X&gt; <tt class="docutils literal">;</tt></blockquote>
+<p><tt class="docutils literal">} while (</tt> &lt;condition&gt; <tt class="docutils literal">);</tt></p>
+</blockquote>
+<p>In practice, “do-while” is used much less frequently than just
+“while”. Many programming languages (like Python) even do not offer
+it at all.</p>
+</div>
+</div>
+<div class="section" id="compact-iteration-the-for-loop">
+<h1>Compact iteration: the “for loop”</h1>
+<p>There is a pattern that often occurs in programs:</p>
+<pre class="code java literal-block">
+<span class="c1">// Example 1:</span><span class="w">
+</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">
+</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w">
+   </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1">// Example 2:</span><span class="w">
+</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w">
+</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w">
+   </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1">// Example 3:</span><span class="w">
+</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">500</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w">
+   </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>The common pattern in these examples is “an iteration
+whose condition depends a counter variable
+initialized once before the loop starts and updated
+in the loop body”. We can abstract it as follows:</p>
+<blockquote>
+<p>&lt;initialization&gt;</p>
+<p><tt class="docutils literal">while (</tt> &lt;condition&gt; <tt class="docutils literal">) {</tt></p>
+<blockquote>
+<p>&lt;something...&gt;</p>
+<p>&lt;update-counter&gt; <tt class="docutils literal">;</tt></p>
+</blockquote>
+<p><tt class="docutils literal">}</tt></p>
+</blockquote>
+<p>This pattern is so often used that the designers of the
+C language have created a shorthand construct, that is
+also available in C++ and Java. It is defined as follows:</p>
+<p><em>Iteration statement, variant 3</em> (also called “for loop”):</p>
+<blockquote>
+<p>Syntax:</p>
+<blockquote>
+<p><tt class="docutils literal">for (</tt> &lt;initialization&gt; <tt class="docutils literal">;</tt> &lt;condition&gt; <tt class="docutils literal">;</tt> &lt;update-counter&gt; <tt class="docutils literal">)</tt></p>
+<blockquote>
+&lt;block-or-statement&gt;</blockquote>
+<p>(the keyword “<tt class="docutils literal">for</tt>”, followed by an opening parenthesis,
+followed by a first expression or declaration called the
+<em>initializer</em>, followed by a semicolon “<tt class="docutils literal">;</tt>”, followed by a
+2nd expression called the <em>condition</em>, followed by another
+semicolon “<tt class="docutils literal">;</tt>”, followed by a third expression called the
+<em>update expression</em>, followed by a closing parenthesis,
+followed by a statement, or block between “<tt class="docutils literal">{</tt>” and
+“<tt class="docutils literal">}</tt>”. The statement-or-block part is also called the <em>body</em>
+of the iteration statement.)</p>
+</blockquote>
+<p>Semantics:</p>
+<blockquote>
+<p>Equivalent to:</p>
+<blockquote>
+<p><tt class="docutils literal">{</tt></p>
+<blockquote>
+<p>&lt;initialization&gt; <tt class="docutils literal">;</tt></p>
+<p><tt class="docutils literal">while (</tt> &lt;condition&gt; <tt class="docutils literal">) {</tt></p>
+<blockquote>
+<p>&lt;block-or-statement&gt;</p>
+<p>&lt;update&gt; <tt class="docutils literal">;</tt></p>
+</blockquote>
+<p><tt class="docutils literal">}</tt></p>
+</blockquote>
+<p><tt class="docutils literal">}</tt></p>
+</blockquote>
+<p>The initialization is executed first.  The condition is then
+evaluated. If its value is equivalent to <tt class="docutils literal">true</tt>, the body is
+executed, then the update expression. Then the condition
+is evaluated again; if it is still true, the body and
+update are executed again. The construct continues to repeat the
+test and execution until the condition becomes false.</p>
+</blockquote>
+</blockquote>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>Like for the “while loop”, the condition is evaluated at the
+beginning, so If the condition is false when the for loop is first
+reached, the body is not executed at all.</p>
+<div class="section" id="when-to-choose-for-over-while">
+<h2>When to choose “for” over “while”?</h2>
+<p>When writing your own code, if you hesitate between “for” and
+“while” in some situation, you can apply the following technique:</p>
+<ul class="simple">
+<li>if you know how many iterations there will be before
+the loop starts, use “for”;</li>
+<li>if you do not know how many iterations there will be, try writing
+your code using both “while” and “for”, and choose the shortest
+of the two.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="examples">
+<h1>Examples</h1>
+<p><strong>Check out the examples Alphabet, Alphabet2 and AlphabetZonderK in
+the accompanying source code repository.</strong></p>
+</div>
+<div class="section" id="important-concepts">
+<h1>Important concepts</h1>
+<ul class="simple">
+<li><em>iteration statement</em>, definition of the 3 variants</li>
+<li>the terms “while loop”, “do-while loop” and “for loop”</li>
+<li>the parts of an iteration statement: the <em>condition expression</em> and
+the <em>body</em>;</li>
+<li>when to choose “do-while” over “while”;</li>
+<li>when to choose “for” over “while”.</li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1>Further reading</h1>
+<ul class="simple">
+<li>Think Java, sections 7.2 (pp. 76-78), 12.4 (pp. 152-153)</li>
+<li>Programming in Java, sections 3.3, 3.3.1, 3.3.2 (pp. 82-86) and 3.4
+(pp. 88-96)</li>
+<li>Absolute Java, section 3.3 with exercises 22-39 (pp. 132-147)</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1>Copyright and licensing</h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>

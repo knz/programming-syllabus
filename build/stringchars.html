@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>Strings, characters and character literals</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="strings-characters-and-character-literals">
+<h1 class="title">Strings, characters and character literals</h1>
+
+<p>Internally, computers only manipulate bits of data; every item of
+data input can be represented as a number encoded in base 2.
+However, when it comes to processing text, mathematical
+equations on the numeric value of letters and punctuation
+are not very comfortable to write and use.</p>
+<p>To optimize the manipulation of text, many programming
+language provide extra facilities that help the programmer.</p>
+<p>The two main constructs available are:</p>
+<ul class="simple">
+<li>a simple data type to <em>represent a single character</em> - a letter,
+digit, punctuation sign, etc.</li>
+<li>a more complex data type to <em>represent a sequence of zero or more
+characters</em>. This is called a <em>character string</em>.</li>
+</ul>
+<div class="section" id="character-types">
+<h1>Character types</h1>
+<p>Character types are not strictly necessary – for example, Python does
+not have a dedicated character type, and programmers will use
+variables of type <tt class="docutils literal">int</tt> to manipulate individual characters
+instead.</p>
+<p>However, <em>dedicated character types are useful because they are more
+compact in memory</em>: they occupy typically much less space (1-2 bytes)
+than an ordinary integer (4-8 bytes). So if a program manipulates many
+characters it is more memory efficient to use the character type when
+it exists.  For example, Java even has two character types, called
+<tt class="docutils literal">char</tt> and <tt class="docutils literal">byte</tt>, much smaller than <tt class="docutils literal">int</tt> that is 32-bit long:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="12%" />
+<col width="32%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Data type</th>
+<th class="head">Size</th>
+<th class="head">Set of allowable values</th>
+<th class="head">Adequate for</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">char</tt></td>
+<td>16 bits</td>
+<td>0 to 65535</td>
+<td>Processing international text</td>
+</tr>
+<tr><td><tt class="docutils literal">byte</tt></td>
+<td>8 bits</td>
+<td>-128 to 127</td>
+<td>Processing binary files</td>
+</tr>
+</tbody>
+</table>
+<p>Which type to use depends on the application: if text is to be read in
+or printed for human users, usually <tt class="docutils literal">char</tt> is adequate; whereas
+reading or writing character for use by another program should
+probably use <tt class="docutils literal">byte</tt> instead.</p>
+</div>
+<div class="section" id="string-types-and-java-s-string">
+<h1>String types and Java's <tt class="docutils literal">String</tt></h1>
+<p>Every language has a different way to manipulate sequences of zero or
+more characters. Some languages like C do not have a dedicated type
+for character strings, so a programmer has to “build their own” using
+arrays of individual characters. In Java, like in Python and most
+modern languages, there is a dedicated type; in Java, the name for
+this is <tt class="docutils literal">String</tt>.</p>
+<p>Like numbers, strings can be read in (<tt class="docutils literal">Scanner.next()</tt>) and printed
+out (<tt class="docutils literal">PrintStream.println()</tt>, <tt class="docutils literal">.printf()</tt>) as-is. We can also express
+a string literal in the Java program using double quotes:</p>
+<pre class="code java literal-block">
+<span class="n">String</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;hello&quot;</span><span class="p">;</span>
+</pre>
+<p>This frament creates a variable of type <tt class="docutils literal">String</tt> and initializes it
+to store the sequence of characters 'h', 'e', 'l', 'l', 'o'.</p>
+<div class="section" id="testing-for-string-equality">
+<h2>Testing for <tt class="docutils literal">String</tt> equality</h2>
+<p>Java's direct equality comparison operators “<tt class="docutils literal">==</tt>” and “<tt class="docutils literal">!=</tt>” are
+<em>only defined for primitive types</em>. This is why we can compare two
+<tt class="docutils literal">int</tt>'s using “<tt class="docutils literal">==</tt>” (<tt class="docutils literal">int</tt> is a primitive type), however <em>the
+direct comparison operators do not work on compound types</em> like
+<tt class="docutils literal">String</tt>.</p>
+<p>This is arguably a shortcoming of the Java language in particular:
+most other programming languages do allow programmers to use <tt class="docutils literal">==</tt> to
+compare character strings. So unfortunately you will have to remembed
+this as an exception. It is especially unfortunate because <em>Java does
+not inform you properly if you make the mistake to use == to compare
+strings</em>. For example, with the following code:</p>
+<pre class="code literal-block">
+String a = &quot;abc&quot;;
+String b = &quot;abc&quot;;
+if (a == b)
+    out.println(&quot;all is well&quot;);
+</pre>
+<p>the program will not print “all is well” as expected, because “<tt class="docutils literal">==</tt>”
+silently did something else entirely.</p>
+<p>The full explanation of what is going on here will come only later
+(when talking about references and aliasing), so at this point <strong>just
+remember this:</strong> <em>to compare strings, use the method equals()</em>, like this:</p>
+<pre class="code literal-block">
+String a = &quot;abc&quot;;
+String b = &quot;abc&quot;;
+if (a.equals(b))
+    out.println(&quot;all is well&quot;);
+</pre>
+<p>This program fragment properly prints “all is well” as expected.</p>
+</div>
+<div class="section" id="string-and-number-conversions">
+<h2>String and number conversions</h2>
+<p>Strings are not numbers, so we cannot perform numeric arithmetic on them:</p>
+<pre class="code java literal-block">
+<span class="n">String</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;123&quot;</span><span class="p">;</span><span class="w">
+</span><span class="n">String</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="c1">// produces an error: b is not a numeric variable</span>
+</pre>
+<p>The only “arithmetic” operation available with Java's <tt class="docutils literal">String</tt> is
+“<tt class="docutils literal">+</tt>”, which concatenates (attaches together) two strings:</p>
+<pre class="code java literal-block">
+<span class="n">String</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;123&quot;</span><span class="p">;</span><span class="w">
+</span><span class="n">String</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w">
+</span><span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">c</span><span class="p">);</span><span class="w"> </span><span class="c1">// prints 123123</span>
+</pre>
+<p>To convert a <tt class="docutils literal">String</tt> to a number (<tt class="docutils literal">int</tt>, <tt class="docutils literal">double</tt>, etc.) you
+can use the <tt class="docutils literal">Scanner</tt>, already seen previously. To perform the
+opposite conversion (from <tt class="docutils literal">int</tt>, <tt class="docutils literal">double</tt>, etc. to <tt class="docutils literal">String</tt>),
+<tt class="docutils literal">String</tt> provides a service called <tt class="docutils literal">valueOf</tt>:</p>
+<pre class="code java literal-block">
+<span class="n">String</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="mf">3.1415</span><span class="p">);</span><span class="w"> </span><span class="c1">// d = &quot;3.1415&quot;</span><span class="w">
+</span><span class="n">String</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">d</span><span class="p">;</span><span class="w">
+</span><span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">e</span><span class="p">);</span><span class="w"> </span><span class="c1">// prints 3.14153.1415</span>
+</pre>
+</div>
+<div class="section" id="useful-string-methods">
+<h2>Useful <tt class="docutils literal">String</tt> methods</h2>
+<p>The type <tt class="docutils literal">String</tt> provides numerous services that help with the use
+of character strings in programs. A complete list is provided in
+the online documentation of the Java language, so you look up <tt class="docutils literal">String</tt> there
+every time you are looking for a string-related language feature.</p>
+<p>However it may be useful to “pre-load” the following knowledge in your
+long-term memory:</p>
+<ul class="simple">
+<li><tt class="docutils literal">a.equals(b)</tt> compares two strings <tt class="docutils literal">a</tt> and <tt class="docutils literal">b</tt> for equality
+(replaces “<tt class="docutils literal">==</tt>”);</li>
+<li><tt class="docutils literal">a.compareTo(b)</tt> compares two strings <tt class="docutils literal">a</tt> and <tt class="docutils literal">b</tt> for
+alphabetical order (replaces “<tt class="docutils literal">&lt;</tt>” and “<tt class="docutils literal">&gt;</tt>”)</li>
+<li><tt class="docutils literal">a.length()</tt> returns the length of the string <tt class="docutils literal">a</tt>, ie the number of character it contains;</li>
+<li><tt class="docutils literal">a.charAt(i)</tt> retrieves the character in the string <tt class="docutils literal">a</tt> at position <tt class="docutils literal">i</tt>;</li>
+<li><tt class="docutils literal">a.substring(i, j)</tt> returns the part of the string that begins at
+position <tt class="docutils literal">i</tt> and ends at position <tt class="docutils literal">j</tt>, as a new string;</li>
+<li><tt class="docutils literal">a.indexOf(c)</tt> returns the position of the first occurrence of the character <tt class="docutils literal">c</tt> in <tt class="docutils literal">a</tt>.</li>
+</ul>
+<p>Also even if you do not need to remember the specifics by heart, you
+should remember that <tt class="docutils literal">String</tt> provides other services that help with
+handling international text, in particular comparison while ignoring
+the difference between lower and upper case, case conversion, etc.</p>
+</div>
+</div>
+<div class="section" id="literals-character-names-and-escape-sequences">
+<h1>Literals, character names and escape sequences</h1>
+<p>A literal is a construct in a programming language whose value is
+equal to what it represents. For example, the text “123” formed by 3
+digits '1', '2', '3' concatenated together is a valid integer literal,
+whose value is equal to a hundred and twenty three.</p>
+<p>In every programming language, <em>there are some values which can be
+represented by multiple different literals.</em> For example, The
+approximate value represented by the literal “<tt class="docutils literal">3.1415</tt>” is also
+represented by “<tt class="docutils literal"><span class="pre">31.415e-1</span></tt>” (<span class="formula">31.415×10<sup> − 1</sup> = 3.1415</span>).</p>
+<p>Characters in particular typically have many names in programming
+languages. For example, the following 3 literals all encode the same
+value in Java:</p>
+<pre class="code literal-block">
+'a'
+'\x61'
+'\u0061'
+'\141'
+</pre>
+<p>The first form is the most simple, this this the character itself.</p>
+<p>The other three forms are other encoding that start with a backslash
+(“<tt class="docutils literal">\</tt>”) followed by a code. The presence of the backslash indicates
+that what follows must be interpreted differently.  A construct of
+this form is called a <em>character escape sequence</em>.</p>
+<p>The reason why these special forms with a backslash are useful is that
+some characters cannot be easily entered in a text editor. For
+example, what if I wanted to check whether a string starts with the
+Greek character alpha? In most environments I cannot type it in the
+source code because special characters are not allowed in the text
+editor, or not saved properly. In order to work around this
+shortcoming, I can use the character code instead:</p>
+<pre class="literal-block">
+final char GREEK_ALPHA = '\u0251';
+
+if (a.charAt(0) == GREEK_ALPHA) ...
+</pre>
+<p>Java, like C, Python and many other programming languages recognizes
+the following escape sequences:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="36%" />
+<col width="13%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Sequence</th>
+<th class="head">Meaning</th>
+<th class="head">Example</th>
+<th class="head">Same as (examples)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">\uNNNN</tt></td>
+<td>Unicode character with code NNNN</td>
+<td><tt class="docutils literal">'\u0061'</tt></td>
+<td><tt class="docutils literal">'a'</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">\xNN</tt></td>
+<td>Character with hexadecimal code NN</td>
+<td><tt class="docutils literal">'\x61'</tt></td>
+<td><tt class="docutils literal">'a'</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">\NNN</tt></td>
+<td>Character with octal code NNN</td>
+<td><tt class="docutils literal">'\141'</tt></td>
+<td><tt class="docutils literal">'a'</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">\'</tt></td>
+<td>The apostrophe character</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">'\x27'</tt>, <tt class="docutils literal">'\047'</tt>, <tt class="docutils literal">'\u0027'</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">\&quot;</tt></td>
+<td>The double quote character</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">'\x22'</tt>, <tt class="docutils literal">'\042'</tt>, <tt class="docutils literal">'\u0022'</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">\\</tt></td>
+<td>The character “<tt class="docutils literal">\</tt>” itself</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">'\x5c'</tt>, <tt class="docutils literal">'\134'</tt>, <tt class="docutils literal">'\u005c'</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">\n</tt></td>
+<td>The newline character</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">'\x0a'</tt>, <tt class="docutils literal">'\012'</tt>, <tt class="docutils literal">'\u000a'</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">\t</tt></td>
+<td>The tab character</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">'\x09'</tt>, <tt class="docutils literal">'\011'</tt>, <tt class="docutils literal">'\u0009'</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">\r</tt></td>
+<td>The carriage return character</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">'\x0d'</tt>, <tt class="docutils literal">'\015'</tt>, <tt class="docutils literal">'\u000d'</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">\f</tt></td>
+<td>The form feed (new page) character</td>
+<td>&nbsp;</td>
+<td><tt class="docutils literal">'\x0c'</tt>, <tt class="docutils literal">'\014'</tt>, <tt class="docutils literal">'\u000c'</tt></td>
+</tr>
+</tbody>
+</table>
+<p>To summarize, <em>if a character can be entered as-is in the program
+text, use that directly; otherwise, use a character escape sequence.</em></p>
+</div>
+<div class="section" id="important-concepts">
+<h1>Important concepts</h1>
+<ul class="simple">
+<li><em>character type</em> and <em>string type</em> and the difference between them;</li>
+<li>dedicated character types are <em>more compact in memory</em> than other integer types;</li>
+<li>testing for equality using <tt class="docutils literal">equals()</tt>, do not use “<tt class="docutils literal">==</tt>”;</li>
+<li>conversion between <tt class="docutils literal">String</tt> and numbers in Java using <tt class="docutils literal">Scanner</tt> and <tt class="docutils literal">String.valueOf()</tt>;</li>
+<li><tt class="docutils literal">String</tt>'s <tt class="docutils literal">charAt</tt>, <tt class="docutils literal">compareTo</tt>, <tt class="docutils literal">length</tt>, <tt class="docutils literal">substring</tt> and <tt class="docutils literal">indexOf</tt> methods;</li>
+<li><em>character literals</em>;</li>
+<li><em>character escape sequences</em>.</li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1>Further reading</h1>
+<ul class="simple">
+<li>Think Java, sections 8.1-8.6 (pp. 91-96)</li>
+<li>Introduction to Programming, sections 2.2.3-2.2.4 (pp. 26-28), section 2.3.3 (pp. 34-35)</li>
+<li>Absolute Java, section 1.3 (pp. 33-45)</li>
+<li>WikiBooks: Programmeren in Java, <a class="reference external" href="https://nl.wikibooks.org/wiki/Programmeren_in_Java/Stringbewerkingen">Stringbewerkingen</a></li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1>Copyright and licensing</h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>

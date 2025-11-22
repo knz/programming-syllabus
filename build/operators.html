@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>Operators and precedence</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="operators-and-precedence">
+<h1 class="title">Operators and precedence</h1>
+
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#general-concepts" id="toc-entry-1">General concepts</a><ul>
+<li><a class="reference internal" href="#precedence" id="toc-entry-2">Precedence</a></li>
+<li><a class="reference internal" href="#grouping-order-fixity-in-math" id="toc-entry-3">Grouping order, fixity in math</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#predecence-and-associativity-in-programming" id="toc-entry-4">Predecence and associativity in programming</a></li>
+<li><a class="reference internal" href="#right-associativity" id="toc-entry-5">Right associativity</a><ul>
+<li><a class="reference internal" href="#right-associativity-of-assignments" id="toc-entry-6">Right associativity of assignments</a></li>
+<li><a class="reference internal" href="#right-associativity-of-if-else" id="toc-entry-7">Right associativity of <tt class="docutils literal"><span class="pre">if-else</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#combined-operators" id="toc-entry-8">Combined operators</a><ul>
+<li><a class="reference internal" href="#combined-assignment-and-arithmetic" id="toc-entry-9">Combined assignment and arithmetic</a></li>
+<li><a class="reference internal" href="#pre-and-post-increment-and-decrement" id="toc-entry-10">Pre- and Post- increment and decrement</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#important-concepts" id="toc-entry-11">Important concepts</a></li>
+<li><a class="reference internal" href="#further-reading" id="toc-entry-12">Further reading</a></li>
+<li><a class="reference internal" href="#copyright-and-licensing" id="toc-entry-13">Copyright and licensing</a></li>
+</ul>
+</div>
+<div class="section" id="general-concepts">
+<h1><a class="toc-backref" href="#toc-entry-1">General concepts</a></h1>
+<div class="section" id="precedence">
+<h2><a class="toc-backref" href="#toc-entry-2">Precedence</a></h2>
+<p>It is customary in mathematics to omit parentheses to simplify complex
+expressions that use binary operators. For example we often write
+“<span class="formula">3 + 2 + 1</span>” instead of the more complex “<span class="formula">(3 + 2) + 1</span>”.</p>
+<p>However as soon as we use different types of operators, the question
+immediately arises: is “<span class="formula">1 + 2×3</span>” equal to “<span class="formula">(1 + 2)×3</span>” or “<span class="formula">1 + (2×3)</span>”? In mathematics at least, we use
+<em>precedence rules</em> to disambiguate: we say that “multiplication has a
+<em>higher precedence</em> than addition”, so the sign <span class="formula">×</span> binds
+to its operands “tighter” than the sign <span class="formula"> + </span>.</p>
+<p>Since we have multiple operators in arithmetic at least, we use a
+<em>precedence table</em> to determine which operators bind tighter than others:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Arithmetic operator</th>
+<th class="head">Precedence (higher binds tighter)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><span class="formula">×÷</span></td>
+<td>4</td>
+</tr>
+<tr><td><span class="formula"> +  − </span></td>
+<td>3</td>
+</tr>
+<tr><td><span class="formula"> =  &lt;  &gt;  ≤  ≥ </span></td>
+<td>2</td>
+</tr>
+<tr><td><span class="formula"> ⇔ </span></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Thanks to this table, we know that “<span class="formula">1 &lt; 2 + 3</span>” is a short way
+to write “<span class="formula">1 &lt; (2 + 3)</span>” and not “<span class="formula">(1 &lt; 2) + 3</span>”, because
+<span class="formula"> + </span> has a higher precedence than <span class="formula"> &lt; </span>.</p>
+</div>
+<div class="section" id="grouping-order-fixity-in-math">
+<h2><a class="toc-backref" href="#toc-entry-3">Grouping order, fixity in math</a></h2>
+<p>When we use the <em>same</em> operator two or more times, another question
+arises: should we group “<span class="formula">1 + 2 + 3</span>” as “<span class="formula">(1 + 2) + 3</span>” or as
+“<span class="formula">1 + (2 + 3)</span>”? For the <span class="formula"> + </span> operator, this does not matter
+much, because addition is associative: we get the same value in either
+case. However, the situation is different with <span class="formula"> − </span>: we get
+different values for “<span class="formula">1 − 2 − 3</span>” if we group like this:
+“<span class="formula">(1 − 2) − 3</span>” (equals -4) or like this: “<span class="formula">1 − (2 − 3)</span>” (equals
+2). In math there are a couple of well known operators that are not
+associative: <span class="formula"> − </span>, <span class="formula">÷</span> and exponentiation
+(<span class="formula">(<i>x</i><sup><i>y</i></sup>)<sup><i>z</i></sup> ≠ <i>x</i><sup>(<i>y</i><sup><i>z</i></sup>)</sup></span>).</p>
+<p>For this situation, in mathematics we nearly always choose for <em>left
+fixity</em>: when we use the same operator two or more times in a row, we
+start grouping from the left. This word “fixity” means “grouping order”.</p>
+</div>
+</div>
+<div class="section" id="predecence-and-associativity-in-programming">
+<h1><a class="toc-backref" href="#toc-entry-4">Predecence and associativity in programming</a></h1>
+<p>Like in math, nearly all programming languages have operator
+precedence rules that make it possible to omit parentheses in many
+cases. Most often, all operators in a programming language that
+represent a mathematical operation have a similar precedence as in
+math. However, there are also other programming operators than in
+math, so for every programming language you will need to have a look
+at its <em>operator precedence table</em>.</p>
+<p>For example, a part of the Java operator precedence table looks like this:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="57%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Operator</th>
+<th class="head">Precedence</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">* / %</tt></td>
+<td>3</td>
+</tr>
+<tr><td><tt class="docutils literal">+ -</tt></td>
+<td>4</td>
+</tr>
+<tr><td><tt class="docutils literal">&lt; &gt;</tt></td>
+<td>6</td>
+</tr>
+<tr><td><tt class="docutils literal">==</tt></td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p>Note the precedence level is sometimes represented, like in the table
+above, by a number where a lower number means a higher precedence. For
+example priority “1” may mean the operator binds tighter than all
+other operators with a larger priority number. As a rule of thumb,
+read the description of the table! Also, usually the highest
+precedence operators are listed first.</p>
+<p>In addition to precedence levels, programming languages also define a
+fixity for most operators. This is called <em>associativity</em> in the
+context of programming. For example we say that the operators <tt class="docutils literal">+</tt>
+and <tt class="docutils literal">*</tt> in Java are “left-associative” to mean that they are grouped
+from the left.</p>
+<p>The following links provide operator precedence tables for different
+languages. <strong>Check them out and see where they overlap and where they
+differ.</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html">Operator precedence in Java</a></li>
+<li><a class="reference external" href="http://en.cppreference.com/w/cpp/language/operator_precedence">Operator precedence in C++</a></li>
+<li><a class="reference external" href="https://docs.python.org/3/reference/expressions.html#operator-precedence">Operator precedence in Python</a></li>
+<li><a class="reference external" href="http://cran.r-project.org/doc/manuals/r-release/R-lang.html#Infix-and-prefix-operators">Operator precedence in R</a></li>
+<li><a class="reference external" href="http://nl.mathworks.com/help/matlab/matlab_prog/operator-precedence.html">Operator precedence in Matlab and Simulink</a></li>
+</ul>
+<p>Note in particular that some language place ordering comparison (<tt class="docutils literal">&lt;
+&gt;</tt>) at the same level as the equality comparison, and others not.</p>
+</div>
+<div class="section" id="right-associativity">
+<h1><a class="toc-backref" href="#toc-entry-5">Right associativity</a></h1>
+<p>The reason why we need to care a bit more about associativity in
+programming than in math is that <em>some operators are
+right-associative</em>.</p>
+<p>For example, in Python, the arithmetic exponentiation noted <tt class="docutils literal">**</tt> is
+right-associative: the expression “<tt class="docutils literal"><span class="pre">2**3**4</span></tt>” is really equivalent
+to “<tt class="docutils literal"><span class="pre">2**(3**4)</span></tt>”. (Java does not have an operator for this.)</p>
+<p>In Java (and other languages from its family including C and C++),
+there are two imporant constructs that are right-associative:
+assignment and <tt class="docutils literal"><span class="pre">if-else</span></tt>.</p>
+<div class="section" id="right-associativity-of-assignments">
+<h2><a class="toc-backref" href="#toc-entry-6">Right associativity of assignments</a></h2>
+<p>The assignment in C, C++, Java and other languages is defined to be
+right-associative in order to simplify the assignment of multiple
+variables to the same value. So instead of writing:</p>
+<pre class="literal-block">
+x = 3;
+y = 3;
+z = 3;
+</pre>
+<p>we can write:</p>
+<pre class="literal-block">
+x = y = z = 3;
+</pre>
+<p>Which is equivalent to “<tt class="docutils literal">x = (y = (z = 3))</tt>”. This works because the
+“result” of an assignment is the variable on the left of the equal
+sign. So “<tt class="docutils literal">z = 3</tt>” sets <tt class="docutils literal">z</tt> to the value 3 then gives <tt class="docutils literal">z</tt> back
+into “<tt class="docutils literal">y = z</tt>”, which changes <tt class="docutils literal">y</tt> then gives <tt class="docutils literal">y</tt> back to “<tt class="docutils literal">x =
+y</tt>”. Of course all this would not work if the assignment was
+left-associative.</p>
+</div>
+<div class="section" id="right-associativity-of-if-else">
+<h2><a class="toc-backref" href="#toc-entry-7">Right associativity of <tt class="docutils literal"><span class="pre">if-else</span></tt></a></h2>
+<p>This is a dangerous pitfall which need particular attention. Consider
+the following program fragment:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w">
+   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">
+     </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">
+</span><span class="k">else</span><span class="w">
+   </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+</pre>
+<p>What is the resulting value for <tt class="docutils literal">x</tt>? The proper answer is 1, not 3!
+This is because <tt class="docutils literal"><span class="pre">if-else</span></tt> is right-associative: the <tt class="docutils literal">else</tt> part
+must be grouped with the first “<tt class="docutils literal">if</tt>” found from the right. So the
+example above is really equivalent to:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">
+     </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">
+   </span><span class="k">else</span><span class="w">
+     </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+</div>
+</div>
+<div class="section" id="combined-operators">
+<h1><a class="toc-backref" href="#toc-entry-8">Combined operators</a></h1>
+<p>Most programming language provide <em>combined operators</em> to shorten expressions.</p>
+<p>The most well-known are “<tt class="docutils literal">&lt;=</tt>” and “<tt class="docutils literal">&gt;=</tt>”, from mathematics. We
+can draw the following equivalence table:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Operation</th>
+<th class="head">Equivalent to</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">a &lt;= b</tt></td>
+<td><tt class="docutils literal">(a &lt; b) || (a == b)</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">a &gt;= b</tt></td>
+<td><tt class="docutils literal">(a &gt; b) || (a == b)</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">a != b</tt></td>
+<td><tt class="docutils literal">!(a == b)</tt></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="combined-assignment-and-arithmetic">
+<h2><a class="toc-backref" href="#toc-entry-9">Combined assignment and arithmetic</a></h2>
+<p>In nearly all programming languages with an assignment operator, the
+following pattern happens often in code:</p>
+<blockquote>
+&lt;variable&gt; <tt class="docutils literal">=</tt> &lt;variable&gt; &lt;operator&gt; &lt;value&gt;</blockquote>
+<p>Where the same variable name is expressed on the left and right side of “<tt class="docutils literal">=</tt>”. For example:</p>
+<pre class="literal-block">
+i = i + 1
+a = a * 2
+z = z - 3
+</pre>
+<p>Since this pattern is so common, most language will provide combined assignment operators of
+the form:</p>
+<blockquote>
+&lt;variable&gt; &lt;operator&gt;= &lt;value&gt;</blockquote>
+<p>For example in Java, C and C++ the following equivalences hold:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Operation</th>
+<th class="head">Equivalent to</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">a += b</tt></td>
+<td><tt class="docutils literal">a = a + b</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">a <span class="pre">-=</span> b</tt></td>
+<td><tt class="docutils literal">a = a - b</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">a /= b</tt></td>
+<td><tt class="docutils literal">a = a / b</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">a *= b</tt></td>
+<td><tt class="docutils literal">a = a * b</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">a %= b</tt></td>
+<td><tt class="docutils literal">a = a % b</tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="pre-and-post-increment-and-decrement">
+<h2><a class="toc-backref" href="#toc-entry-10">Pre- and Post- increment and decrement</a></h2>
+<p>The C language, which Java inherits from, also has two additional
+operators: <tt class="docutils literal">++</tt> and <tt class="docutils literal"><span class="pre">--</span></tt>. They each exist in two forms: a <em>prefix</em>
+form “<tt class="docutils literal">++x</tt>” and a <em>suffix</em> form “<tt class="docutils literal">x++</tt>”, for a total of 4
+operators. They are defined as follows:</p>
+<p><em>Pre-increment and pre-decrement:</em></p>
+<blockquote>
+<p>Syntax:</p>
+<blockquote>
+<p><tt class="docutils literal">++</tt> &lt;variable&gt;</p>
+<p><tt class="docutils literal"><span class="pre">--</span></tt> &lt;variable&gt;</p>
+</blockquote>
+<p>Semantics:</p>
+<blockquote>
+Equivalent respectively to “&lt;variable&gt; <tt class="docutils literal">+= 1</tt>” and “&lt;variable&gt;
+<tt class="docutils literal"><span class="pre">-=</span> 1</tt>”:  the variable is incremented (resp. decremented) by 1,
+then the variable is returned as result into the enclosing expression.</blockquote>
+</blockquote>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">++</span><span class="n">x</span><span class="p">;</span><span class="w">
+</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span><span class="s">&quot;%d %d\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w"> </span><span class="c1">// prints 43 43</span>
+</pre>
+<p>The prefix form is the simplest to understand at first contact,
+however in practice the suffix form is more commonly used:</p>
+<p><em>Post-increment and post-decrement:</em></p>
+<blockquote>
+<p>Syntax:</p>
+<blockquote>
+<p>&lt;variable&gt; <tt class="docutils literal">++</tt></p>
+<p>&lt;variable&gt; <tt class="docutils literal"><span class="pre">--</span></tt></p>
+</blockquote>
+<p>Semantics:</p>
+<blockquote>
+<ol class="arabic simple">
+<li>the current value of the variable is saved.</li>
+<li>the variable is incremented (resp. decremented) by 1.</li>
+<li>the value saved in step #1 is returned as result into the enclosing expression.</li>
+</ol>
+</blockquote>
+</blockquote>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">++</span><span class="p">;</span><span class="w">
+</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span><span class="s">&quot;%d %d\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w"> </span><span class="c1">// prints 43 42</span>
+</pre>
+<p>The name “pre-increment” comes from Latin “pre” for “before”: the
+variable is incremented before its value is given back in the
+enclosing expression. In “post-increment” the variable is incremented
+“after” its value is given back in the enclosing expression.</p>
+</div>
+</div>
+<div class="section" id="important-concepts">
+<h1><a class="toc-backref" href="#toc-entry-11">Important concepts</a></h1>
+<ul class="simple">
+<li><em>operator precedence</em>;</li>
+<li><em>fixity</em> in math and <em>associativity</em> in languages;</li>
+<li>how to read a precedence table;</li>
+<li>right associativity of assignments in Java;</li>
+<li>right associativity of <tt class="docutils literal"><span class="pre">if-else</span></tt> in Java;</li>
+<li>combined operators;</li>
+<li>pre- and post- increment and decrement.</li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1><a class="toc-backref" href="#toc-entry-12">Further reading</a></h1>
+<ul class="simple">
+<li>Think Java, section 2.7 (pp. 19-20), section 8.8 (p. 97)</li>
+<li>Introduction to Programming, section 2.5 (pp. 47-51)</li>
+<li>Absolute Java, Appendix 2 (p. 1141), increment &amp; decrement operators
+(pp. 30-33)</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1><a class="toc-backref" href="#toc-entry-13">Copyright and licensing</a></h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>

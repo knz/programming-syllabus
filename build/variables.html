@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>Variables and constants</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="variables-and-constants">
+<h1 class="title">Variables and constants</h1>
+
+<p>One of the responsibilities of a programmer is to ensure the program
+is <em>readable and modifiable by other people</em>, in addition of making
+the program valid and readable for the computer.  This is called
+<em>maintainability</em>.</p>
+<p>To make maintainable programs, there are several general guidelines you
+should follow. Two of the most important are:</p>
+<ul class="simple">
+<li>follow the <em>“Don't-Repeat-Yourself principle” (DRY)</em>: whenever you
+need to refer two or more times to the same concept, only write it
+once, give it a name, and reuse that name in multiple places. This
+is to reduce the number of potential errors that would happen
+if the concept needs to be changed in the future.</li>
+<li>follow the <em>No Magic Values rule</em>: do not place numeric values that
+have a special meaning in the business/user domain in the middle of
+program logic; instead, give them a name at the beginning and
+document their role in program comments. This is to ensure that the
+reader of the code can understand the business/user domain before
+he/she starts reading the rest of the program.</li>
+</ul>
+<p>For example, say that you want to decide a price for a train ticket;
+the normal price is 30EUR; people under 6 have a reduced “children” fare
+of 5EUR; people between 6 and 25 get a “student” fare of 20EUR, over 65
+get a “senior” reduction of 25%. A naive encoding of this logic could
+be:</p>
+<pre class="code java literal-block">
+<span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w">
+   </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">
+</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">25</span><span class="p">)</span><span class="w">
+   </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w">
+</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">65</span><span class="p">)</span><span class="w">
+   </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.25</span><span class="p">;</span>
+</pre>
+<p>However there are two problems here. One is that this code violates
+the DRY principle: the ages “6” and “25” are both repeated two
+times. The other is that it violates the “no magic values” rule: each
+age and price value are business values which cannot be interpreted by
+just looking at the code.</p>
+<div class="section" id="factoring-and-refactoring-factoring-constants">
+<h1>Factoring and refactoring, factoring constants</h1>
+<p>When you see two or more instances of the same thing, you should
+immediately think “DRY principle” and attempt to group them
+together with a single name. Likewise, if you see a numeric value
+whose significance is dependent on the larger (human) context, you
+should give it a name and explain it early.</p>
+<p>This process of grouping things and giving them an isolated name and
+explanation is called <em>factoring</em> (for the 1st time) and <em>refactoring</em>
+(from the 2nd time onward).</p>
+<p>Usually (re)factoring is explained/performed in 3 forms:</p>
+<ul class="simple">
+<li>factoring numeric values towards the beginning of a program: <em>constant factoring</em>;</li>
+<li>grouping/moving statements within a small context: <em>local refactoring</em>;</li>
+<li>moving/restructuring larger portions of a program from one place to another: <em>global refactoring</em>.</li>
+</ul>
+</div>
+<div class="section" id="constant-factoring-and-constant-naming-convention">
+<h1>Constant factoring and constant naming convention</h1>
+<p>For the small example above, only constant factoring is sufficient to
+fix the two problems. So we need to place a single declaration
+at the beginning for all the special values.</p>
+<p>For this three steps are necessary:</p>
+<ol class="arabic simple">
+<li>choosing a name;</li>
+<li>moving the value at the beginning and bind it to the name;</li>
+<li>rewriting the place where the value was earlier expressed, by its new name.</li>
+</ol>
+<p>The process of <em>choosing a good name</em> thus forms an essential part of
+constant factoring. There are many ways to do this, but the entire
+software engineering industry has settled on a general consensus:
+<em>when factoring constants, it is customary to give them a name all in
+capitals, with words separated by underscores, ``LIKE_THIS``</em>.</p>
+<p>A rule that determines how to name things is called a <em>naming
+convention</em>; this specific rule above is usually phrased as follows:
+“the naming convention for constants is to use capitals, with words
+separated by underscores”.</p>
+<p>Note this is not strictly necessary from the computer's perspective, but
+people who read other people's code usually learn to expect constants
+named this way, so you should do the same too.</p>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">CHILD_AGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">YOUNG_AGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">SENIOR_AGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">65</span><span class="p">;</span><span class="w">
+</span><span class="kt">double</span><span class="w"> </span><span class="n">BASE_FARE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w">
+</span><span class="kt">double</span><span class="w"> </span><span class="n">YOUNG_FARE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w">
+</span><span class="kt">double</span><span class="w"> </span><span class="n">CHILD_FARE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">
+</span><span class="kt">double</span><span class="w"> </span><span class="n">SENIOR_REDUCED_FARE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BASE_FARE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.25</span><span class="p">;</span><span class="w">
+
+
+</span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BASE_FARE</span><span class="p">;</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">CHILD_AGE</span><span class="p">)</span><span class="w">
+   </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CHILD_FARE</span><span class="p">;</span><span class="w">
+</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">CHILD_AGE</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">YOUNG_AGE</span><span class="p">)</span><span class="w">
+   </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">YOUNG_FARE</span><span class="p">;</span><span class="w">
+</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">SENIOR_AGE</span><span class="p">)</span><span class="w">
+   </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SENIOR_FARE</span><span class="p">;</span>
+</pre>
+</div>
+<div class="section" id="constants-vs-mutability-using-final-in-java">
+<h1>Constants vs. mutability, using <tt class="docutils literal">final</tt> in Java</h1>
+<p>One new problem introduced by factoring constants is that if you use a
+“regular” variable to store the numeric value, nothing prevents a
+programmer from (erronously or maliciously) <em>changing</em> this value over
+time. So a constant may end up not being really constant after all,
+and troubleshooting code that changes constants becomes very difficult.</p>
+<p>To avoid this, every imperative language offers a special construct
+to declare that a constant is just that, <em>immutable</em>: the program
+cannot change their value, and any attempt to do so would trigger
+a compile-time error.</p>
+<p>In Java, the way to do that is to write “<tt class="docutils literal">final</tt>” in the
+declaration, like this:</p>
+<pre class="code java literal-block">
+<span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">CHILD_AGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w">
+</span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">YOUNG_AGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span><span class="p">;</span><span class="w">
+</span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">SENIOR_AGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">65</span><span class="p">;</span><span class="w">
+</span><span class="kd">final</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">BASE_FARE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w">
+</span><span class="kd">final</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">YOUNG_FARE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w">
+</span><span class="kd">final</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">CHILD_FARE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">
+</span><span class="kd">final</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">SENIOR_REDUCED_FARE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BASE_FARE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.25</span><span class="p">;</span>
+</pre>
+<p>By doing this, a statement of the form “<tt class="docutils literal">SENIOR_AGE = 42</tt>” later in
+the program becomes invalid.</p>
+</div>
+<div class="section" id="important-concepts">
+<h1>Important concepts</h1>
+<ul class="simple">
+<li><em>maintainability</em></li>
+<li><em>DRY principle</em></li>
+<li><em>No Magic Values rule</em></li>
+<li><em>factoring</em> and <em>refactoring</em></li>
+<li><em>naming convention</em></li>
+<li><em>naming convention in Java for constants</em></li>
+<li><em>mutability</em> and <tt class="docutils literal">final</tt> in Java</li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1>Further reading</h1>
+<ul class="simple">
+<li>“DRY principle” on Wikipedia and other sources</li>
+<li>Programming in Java, section 4.7.2 (pp. 177-180)</li>
+<li>Absolute Java, section 1.4 (pp. 46-48)</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1>Copyright and licensing</h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>

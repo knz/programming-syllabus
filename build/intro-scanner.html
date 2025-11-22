@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>Introduction to Java's Scanner</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="introduction-to-java-s-scanner">
+<h1 class="title">Introduction to Java's Scanner</h1>
+
+<p>Programs are not all about changing numbers into other numbers; a
+great part of automated process is <em>interacting</em> with the world around
+the computer. For example, a program may <em>input</em> data entered using a
+keyboard or mouse, and <em>output</em> diagrams visually to a screen.</p>
+<p>The most common interface for input in imperative languages is the
+<em>sequential poll</em>: a program repeatedly performs a call over time to a
+system API to ask “is there some input available?”, and the system
+responds either “no, no data available yet” or “yes, here is some
+data”.</p>
+<p>(There are other general interfaces to input data in programs than
+sequential polling. We will see another in a later course called
+“event loops”; others also exist.)</p>
+<div class="section" id="sequential-input-stream">
+<h1>Sequential input stream</h1>
+<p>In languages with a sequential poll interface, an API exists to query
+the availability of input data “from the outside world”. As data
+arrives, it is delivered to the program in the order of
+availability. We say that the program “reads” input data in
+sequential time order.</p>
+<p>This ordering of input data over time is called <em>input streaming</em>,
+the input-side counterpart to output streaming seen in a previous lecture.</p>
+<p>An <em>input stream</em> is an abstract concept, which models the arrival of
+fresh data into the program over time. An input stream is said to be
+<em>terminated</em> when there is a point time after which no data can be
+read any more. This point is called the <em>end-of-stream</em> (sometimes also
+called “end of file”) event.</p>
+</div>
+<div class="section" id="data-structuring-in-java">
+<h1>Data structuring in Java</h1>
+<p>At the level of hardware, input devices like a keyboard, mouse or
+network adapter delivers raw bits of data to the computer. Like for
+memory, it is the role of programming languages to <em>provide structure</em>
+to input data to ease the programmer's task.</p>
+<p>In Java, two interfaces exist to give structure to bits of input data:
+<tt class="docutils literal">InputStream</tt> to read input byte by byte, and <tt class="docutils literal">Scanner</tt> to read
+input using more complex data types.</p>
+</div>
+<div class="section" id="raw-bytes-using-java-s-inputstream">
+<h1>Raw bytes using Java's <tt class="docutils literal">InputStream</tt></h1>
+<p>Java's <tt class="docutils literal">InputStream</tt> interface can be used in a program to read
+input byte per input byte. A byte is the numeric interpretation of
+8 bits of raw data, interpreted as the binary representation of a
+value between 0 and 255.</p>
+<p>The <tt class="docutils literal">InputStream</tt> interface defines its main service <tt class="docutils literal">read</tt> as
+follows:</p>
+<blockquote>
+<p>Definition:</p>
+<blockquote>
+int read()</blockquote>
+<p>Semantics:</p>
+<blockquote>
+returns the next byte readable from the input stream as a
+value between 0 and 255. If the end of stream was reached,
+returns -1.  This service will pause the program if it is
+called and no data is available yet; when this happens,
+execution only resumes when either at least one byte is
+available for reading or the end-of-stream has been reached.</blockquote>
+</blockquote>
+<p>Moreover, the <em>standard input stream</em> of a program, usually connected
+to the user's keyboard, is defined as an <tt class="docutils literal">InputStream</tt> named
+<tt class="docutils literal">System.in</tt>.</p>
+<p>For example, the following code reads data from the standard input stream
+byte by byte, prints the numeric code of each byte on a separate line,
+and prints “goodbye” when the end-of-stream is reached:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="p">;</span><span class="w">
+
+</span><span class="k">do</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="c1">// Read one byte.</span><span class="w">
+   </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">in</span><span class="p">.</span><span class="na">read</span><span class="p">();</span><span class="w">
+
+   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c1">// end-of-file?</span><span class="w">
+      </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;goodbye&quot;</span><span class="p">);</span><span class="w">
+   </span><span class="k">else</span><span class="w">
+      </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">c</span><span class="p">);</span><span class="w">
+
+</span><span class="p">}</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</pre>
+</div>
+<div class="section" id="structuring-data-using-scanner">
+<h1>Structuring data using <tt class="docutils literal">Scanner</tt></h1>
+<p>Although bytes can represent all possible data input from the outside
+world, usually input data is structured in other ways: for example a
+number is usually encoded using its base-10 representation.</p>
+<p>It is possible in Java to <em>add a layer of additional interpretation</em>
+to any <tt class="docutils literal">InputStream</tt> using another interface called <tt class="docutils literal">Scanner</tt>. To
+use this, the program must first “make” a <tt class="docutils literal">Scanner</tt> using the
+following notation:</p>
+<blockquote>
+<tt class="docutils literal">Scanner</tt> &lt;somename&gt; <tt class="docutils literal">= new Scanner(</tt> &lt;source&gt; <tt class="docutils literal">);</tt></blockquote>
+<p>This notation will be explained in a subsequent lecture; for the time
+being, just use it as-is. You must replace “&lt;somename&gt;” by a name of
+your choosing and “&lt;source&gt;” by the name of an <tt class="docutils literal">InputStream</tt> that
+can input bytes, for example <tt class="docutils literal">System.in</tt>:</p>
+<pre class="literal-block">
+Scanner myIn = new Scanner(System.in);
+</pre>
+<p>Once a <tt class="docutils literal">Scanner</tt> is available, it offers to your program several services
+of interest, including:</p>
+<blockquote>
+<p>Definition:</p>
+<pre class="literal-block">
+boolean hasNext()
+</pre>
+<p>Semantics:</p>
+<blockquote>
+Returns “true” if data is available and the end-of-stream has
+not been reached yet. Returns “false” if the end-of-stream
+has been reached. Pauses the program if no data is available
+yet and the end-of-stream has not yet been reached, until
+either data becomes available or end-of-stream is encountered.</blockquote>
+<p>Definition:</p>
+<pre class="literal-block">
+int nextInt()
+</pre>
+<p>Semantics:</p>
+<blockquote>
+Interprets the next bytes from the input as the
+representation of an integer in base 10 (for example “<tt class="docutils literal">123</tt>”
+is interpreted to represents a hundred and twenty-three).  Any leading minus
+sign (“-”), if present, is interpreted to denote a negative
+integer.  Returns the integer value of the input
+representation. Reports an error if the end-of-stream is
+encountered. Pauses the program if no data is available yet
+and end-of-stream is not encountered; execution resumes only
+when some data is available or end-of-stream is encountered.</blockquote>
+<p>Definition:</p>
+<pre class="literal-block">
+double nextDouble()
+</pre>
+<p>Semantics:</p>
+<blockquote>
+Same as <tt class="docutils literal">nextInt()</tt>, except that the input bytes are
+interpreted as the scientific representation of a
+floating-point approximate number in base 10 (for example
+“314.15e-2” is interpreted to represent an approximation of 3.1415).</blockquote>
+<p>Definition:</p>
+<pre class="literal-block">
+String next()
+</pre>
+<p>Semantics:</p>
+<blockquote>
+Return the next word as a string without
+interpretation. Reports an error if the end-of-stream is
+encountered. Pauses the program if no data is available yet
+and end-of-stream is not encountered; execution resumes only
+when some data is available or end-of-stream is encountered.</blockquote>
+</blockquote>
+<p>For example, the following program reads floating-point numbers from
+the standard input stream, until the end-of-stream is reached, and
+then prints their average if at least one value could be read:</p>
+<pre class="code java literal-block">
+<span class="n">Scanner</span><span class="w"> </span><span class="n">myIn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">in</span><span class="p">);</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">numberOfValues</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">
+</span><span class="kt">double</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">
+
+</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">myIn</span><span class="p">.</span><span class="na">hasNext</span><span class="p">())</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="kt">double</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myIn</span><span class="p">.</span><span class="na">nextDouble</span><span class="p">();</span><span class="w">
+    </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w">
+    </span><span class="n">numberOfValues</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numberOfValues</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">numberOfValues</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="kt">double</span><span class="w"> </span><span class="n">average</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">numberOfValues</span><span class="p">;</span><span class="w">
+    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span><span class="s">&quot;Average: %f\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">average</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>For more comprehensive examples, refer to the files
+<strong>Gemiddelde.java</strong> and <strong>NumberGame.java</strong> in the accompanying source
+code repository.</p>
+</div>
+<div class="section" id="important-concepts">
+<h1>Important concepts</h1>
+<ul class="simple">
+<li><em>sequential polling</em></li>
+<li><em>input stream</em></li>
+<li><em>standard input stream</em> in Java</li>
+<li>Difference between <tt class="docutils literal">InputStream</tt> and <tt class="docutils literal">Scanner</tt></li>
+<li><tt class="docutils literal">Scanner</tt>'s <tt class="docutils literal">hasNext()</tt>, <tt class="docutils literal">nextInt()</tt> and <tt class="docutils literal">nextDouble()</tt></li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1>Further reading</h1>
+<ul class="simple">
+<li>Programming in Java, sections 2.4.6 (pp. 46-47) and 11.1.5 (pp. 541-542)</li>
+<li>Absolute Java, section 2.2 (pp. 76-78)</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1>Copyright and licensing</h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>

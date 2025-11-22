@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>Combining multiple Scanners</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="combining-multiple-scanners">
+<h1 class="title">Combining multiple Scanners</h1>
+
+<p>(This extends the <a class="reference external" href="intro-scanner.html">previous lecture</a> that introduced Java's
+<tt class="docutils literal">Scanner</tt> and highlighted how to use it with the standard input
+stream.)</p>
+<div class="section" id="connecting-a-scanner-to-other-sources">
+<h1>Connecting a <tt class="docutils literal">Scanner</tt> to other sources</h1>
+<p>As explained earlier, <tt class="docutils literal">Scanner</tt> provides additional structure to
+input data: it interprets the input bytes and converts them to Java's
+native data types.</p>
+<p>Also as explained earlier, it is possible to “connect” as <tt class="docutils literal">Scanner</tt> to any
+existing <tt class="docutils literal">InputStream</tt>, in particular Java's standard input stream named <tt class="docutils literal">System.in</tt>.</p>
+<p>In addition to this, <tt class="docutils literal">Scanner</tt> can be connected to a character string,
+to provide additional structure to the characters. This is done by making
+the <tt class="docutils literal">Scanner</tt> as follows:</p>
+<blockquote>
+<tt class="docutils literal">Scanner</tt> &lt;somename&gt; <tt class="docutils literal">= new Scanner(</tt> &lt;somestring&gt; <tt class="docutils literal">);</tt></blockquote>
+<p>For example:</p>
+<pre class="literal-block">
+String myString = &quot;12 34 567&quot;;
+Scanner myIn = new Scanner(myString);
+</pre>
+<p>When doing this, the scanner uses the characters from the string as
+input bytes for interpretation. In this specific example, using
+<tt class="docutils literal">nextInt()</tt> on <tt class="docutils literal">myIn</tt> will return twelve, thirty-four and five
+hundred and sixty-seven, in this order.</p>
+</div>
+<div class="section" id="input-delimiters">
+<h1>Input delimiters</h1>
+<p>During the data interpretation, a question arises: where to stop
+interpreting data? For example, how does <tt class="docutils literal">Scanner</tt> know that
+the string of digits “<tt class="docutils literal">1234</tt>” represents a single number, and not
+two numbers “<tt class="docutils literal">1</tt>” then “<tt class="docutils literal">234</tt>” or “<tt class="docutils literal">123</tt>” then “<tt class="docutils literal">4</tt>”?</p>
+<p><em>By default, ``Scanner`` interprets data until the next white space character.</em>
+In other words, when a program uses one of <tt class="docutils literal">Scanner</tt>'s services, eg. <tt class="docutils literal">readInt()</tt>,
+the <tt class="docutils literal">Scanner</tt> reads multiple bytes from its underlying
+input stream until it encounters some white space, then interprets theses
+bytes to the desired type, then returns the converted value to the program.</p>
+<p>For example, if a <tt class="docutils literal">Scanner</tt> encounters the string “<tt class="docutils literal">12 34 56</tt>” in
+the input stream, a program's first call to <tt class="docutils literal">nextInt()</tt> will return
+twelve, the second call will return thirty-four, and the third call
+will return fifty-six.</p>
+<p>We say that “the standard delimiter for <tt class="docutils literal">Scanner</tt> is white
+space”. The <em>delimiter</em> is the character (or group of characters) that
+<tt class="docutils literal">Scanner</tt> detects as a separation between subsequent values returned
+to the program.</p>
+</div>
+<div class="section" id="changing-the-input-delimiter">
+<h1>Changing the input delimiter</h1>
+<p>If the program must read data from a source using a custom format,
+often the format specifies a different delimiter than white space.
+For example, the standard spreadsheet format “CSV” uses a comma (“,”)
+as delimiter between subsequent values.</p>
+<p>If we attempt to connect a <tt class="docutils literal">Scanner</tt> to a CSV source and use
+<tt class="docutils literal">nextInt()</tt> directly, chances are Java will complain as an error,
+that it does not know how to interpret a comma in the input.
+To interpret the comma as a delimiter, we must use another
+<tt class="docutils literal">Scanner</tt> service, <tt class="docutils literal">useDelimiter()</tt>:</p>
+<blockquote>
+<p>Definition:</p>
+<pre class="literal-block">
+useDelimiter(String newDelimiter)
+</pre>
+<p>Semantics:</p>
+<blockquote>
+Changes this <tt class="docutils literal">Scanner</tt>'s delimiter to the specified string.
+The change takes effect directly for the next data item read from the input.</blockquote>
+</blockquote>
+<p>For example, the following code reads floating-point approximate
+numbers between 0.0 and 1.0, separated by commas, from the standard input
+stream, and prints each number in turn as a percentage between 0% and
+100%:</p>
+<pre class="code java literal-block">
+<span class="n">Scanner</span><span class="w"> </span><span class="n">myIn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">in</span><span class="p">);</span><span class="w">
+
+</span><span class="n">myIn</span><span class="p">.</span><span class="na">useDelimiter</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// &lt;- this!</span><span class="w">
+
+</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">myIn</span><span class="p">.</span><span class="na">hasNext</span><span class="p">())</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="kt">double</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myIn</span><span class="p">.</span><span class="na">nextDouble</span><span class="p">();</span><span class="w">
+
+    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span><span class="s">&quot;%d%%\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)(</span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">100.</span><span class="p">));</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+</div>
+<div class="section" id="a-special-delimiter-the-new-line-character">
+<h1>A special delimiter: the “new line” character</h1>
+<p>There is a special character in the input that is <em>always interpreted
+as a delimiter</em> by <tt class="docutils literal">Scanner</tt>: the newline character, with ASCII
+code 10. So even if a <tt class="docutils literal">Scanner</tt> has been configured with
+<tt class="docutils literal">useDelimiter()</tt> to use a comma as delimiter, two values on separate
+lines will be interpreted separately without errors.</p>
+<p>The addition of this special role in turn enables
+an important extra service of <tt class="docutils literal">Scanner</tt>:</p>
+<blockquote>
+<p>Definition:</p>
+<pre class="literal-block">
+String nextLine()
+</pre>
+<p>Semantics:</p>
+<blockquote>
+Reads bytes until and including the first subsequent newline
+character, and returns the resulting bytes without the final
+newline character. Reports an error if end-of-stream was
+reached. Pauses the program if no bytes are yet available for
+reading and end-of-stream was not reached yet; the execution is
+resumed only when data becomes available or end-of-stream is
+reached.</blockquote>
+</blockquote>
+<p>This service is useful when an input format has a <em>variable number of
+columns</em> in each line. If a program is only interested in, say, the
+third column, it can read the first 3 columns of each line using
+<tt class="docutils literal">nextInt()</tt> (or any other service of <tt class="docutils literal">Scanner</tt>) then skip all
+remaining input on the same line until the beginning of the next
+line. For example:</p>
+<pre class="code java literal-block">
+<span class="n">Scanner</span><span class="w"> </span><span class="n">myIn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">in</span><span class="p">);</span><span class="w">
+</span><span class="n">myIn</span><span class="p">.</span><span class="na">useDelimiter</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">);</span><span class="w">
+
+</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">myIn</span><span class="p">.</span><span class="na">hasNext</span><span class="p">())</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">myIn</span><span class="p">.</span><span class="na">next</span><span class="p">();</span><span class="w"> </span><span class="c1">// read 1st column</span><span class="w">
+   </span><span class="n">myIn</span><span class="p">.</span><span class="na">next</span><span class="p">();</span><span class="w"> </span><span class="c1">// read 2nd column;</span><span class="w">
+   </span><span class="n">String</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myIn</span><span class="p">.</span><span class="na">next</span><span class="p">();</span><span class="w"> </span><span class="c1">// read 3rd column</span><span class="w">
+   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">v</span><span class="p">);</span><span class="w">
+
+   </span><span class="n">myIn</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span><span class="w"> </span><span class="c1">// skip until beginning of next line</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>This code reads comma-separated tabular data from the standard input and prints
+the contents of the 3rd column on each line; if there are more columns than 3,
+they are automatically skipped.</p>
+</div>
+<div class="section" id="combining-multiple-scanners-1">
+<h1>Combining multiple Scanners</h1>
+<p>A common application is the use of programs to process
+multi-dimensional data sets.  An input data file containing a
+multi-dimensional data set usually has multiple levels of
+delimiters.</p>
+<p>For example, a 3-D data set that contains a time sequence of
+2-dimensional points could be specified to use the following format:</p>
+<ul class="simple">
+<li>the coordinates for one point are separated by commas; and</li>
+<li>different points are separated by semicolons.</li>
+</ul>
+<p>For example, an input stream in this format could be
+“<tt class="docutils literal"><span class="pre">4,2;5,2;1,1;0,-1</span></tt>”, to represent 4 points with
+coordinates (4,2), (5,2), (1,1) and (0,-1).</p>
+<p>How to go about writing a program that reads multi-dimensional data?
+In this general case, you should think about <em>combining ``Scanner``
+multiple times</em>. There is a general method for this:</p>
+<ul class="simple">
+<li>make a 1st <tt class="docutils literal">Scanner</tt> for the outer dimension, configured with the outer
+dimension's delimiter, and read each element
+in the outer dimension in turn as a <tt class="docutils literal">String</tt> using <tt class="docutils literal">next()</tt>;</li>
+<li>for every <tt class="docutils literal">String</tt> read in this way, make a 2nd <tt class="docutils literal">Scanner</tt> for the 2nd
+outermost dimension, configured with that dimension's delimiter, and
+read each element in turn as a <tt class="docutils literal">String</tt> using <tt class="docutils literal">next()</tt>;</li>
+<li>and so on, for all outer dimensions;</li>
+<li>for every <tt class="docutils literal">String</tt> read in this way, make a last <tt class="docutils literal">Scanner</tt> for
+the inner dimension, then read the individual values using
+<tt class="docutils literal">nextInt()</tt>, <tt class="docutils literal">nextDouble()</tt> or the otherwise appropriate
+interpretation service from <tt class="docutils literal">Scanner</tt>.</li>
+</ul>
+<p>For example, using the 3-D format described above, there is only 1 outer dimension,
+so we start as follows:</p>
+<pre class="code java literal-block">
+<span class="n">Scanner</span><span class="w"> </span><span class="n">in1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">in</span><span class="p">);</span><span class="w">
+
+</span><span class="n">in1</span><span class="p">.</span><span class="na">useDelimiter</span><span class="p">(</span><span class="s">&quot;;&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// outer delimiter</span><span class="w">
+
+</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">in1</span><span class="p">.</span><span class="na">hasNext</span><span class="p">())</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">String</span><span class="w"> </span><span class="n">outerElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in1</span><span class="p">.</span><span class="na">next</span><span class="p">();</span><span class="w">
+
+   </span><span class="p">...</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>Then we fill the missing part with the logic for the inner dimension:</p>
+<pre class="code java literal-block">
+<span class="n">Scanner</span><span class="w"> </span><span class="n">in1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">in</span><span class="p">);</span><span class="w">
+
+</span><span class="n">in1</span><span class="p">.</span><span class="na">useDelimiter</span><span class="p">(</span><span class="s">&quot;;&quot;</span><span class="p">);</span><span class="w">
+
+</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">in1</span><span class="p">.</span><span class="na">hasNext</span><span class="p">())</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">String</span><span class="w"> </span><span class="n">outerElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in1</span><span class="p">.</span><span class="na">next</span><span class="p">();</span><span class="w">
+
+   </span><span class="n">Scanner</span><span class="w"> </span><span class="n">in2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="n">outerElement</span><span class="p">);</span><span class="w">
+
+   </span><span class="n">in2</span><span class="p">.</span><span class="na">useDelimiter</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// inner delimiter</span><span class="w">
+
+   </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">in2</span><span class="p">.</span><span class="na">hasNext</span><span class="p">())</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in2</span><span class="p">.</span><span class="na">nextInt</span><span class="p">();</span><span class="w">
+      </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span><span class="s">&quot;Found a value: %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+<p>Of course, as soon as there are two or more layers nested in this way,
+you should also introduce new functions that isolate each piece of
+logic. For example, the code above can be rewritten as follows:</p>
+<pre class="code java literal-block">
+<span class="c1">// readPoints(): read 2D points separated by semicolons</span><span class="w">
+</span><span class="kt">void</span><span class="w"> </span><span class="nf">readPoints</span><span class="p">()</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">Scanner</span><span class="w"> </span><span class="n">in1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">in</span><span class="p">);</span><span class="w">
+
+   </span><span class="n">in1</span><span class="p">.</span><span class="na">useDelimiter</span><span class="p">(</span><span class="s">&quot;;&quot;</span><span class="p">);</span><span class="w">
+
+   </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">in1</span><span class="p">.</span><span class="na">hasNext</span><span class="p">())</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="n">String</span><span class="w"> </span><span class="n">outerElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in1</span><span class="p">.</span><span class="na">next</span><span class="p">();</span><span class="w">
+
+      </span><span class="n">readCoordinates</span><span class="p">(</span><span class="n">outerElement</span><span class="p">);</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1">// readCoordinates(): read scalars separated by commas</span><span class="w">
+</span><span class="kt">void</span><span class="w"> </span><span class="nf">readCoordinates</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">element</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="n">Scanner</span><span class="w"> </span><span class="n">in2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="n">element</span><span class="p">);</span><span class="w">
+
+   </span><span class="n">in2</span><span class="p">.</span><span class="na">useDelimiter</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">);</span><span class="w">
+
+   </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">in2</span><span class="p">.</span><span class="na">hasNext</span><span class="p">())</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in2</span><span class="p">.</span><span class="na">nextInt</span><span class="p">();</span><span class="w">
+
+      </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span><span class="s">&quot;Found a value: %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span>
+</pre>
+</div>
+<div class="section" id="important-concepts">
+<h1>Important concepts</h1>
+<ul class="simple">
+<li>connecting <tt class="docutils literal">Scanner</tt> to a <tt class="docutils literal">String</tt>;</li>
+<li><em>delimiters</em> and <tt class="docutils literal">useDelimiter()</tt>;</li>
+<li>new line characters and <tt class="docutils literal">nextLine()</tt>;</li>
+<li>combining multiple scanners for multi-dimensional input data.</li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1>Further reading</h1>
+<ul class="simple">
+<li>Programming in Java, section 11.1.5 (pp. 541-542)</li>
+<li>Absolute Java, sections 2.2 (pp. 79-88)</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1>Copyright and licensing</h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>

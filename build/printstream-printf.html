@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>PrintStream and printf</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="printstream-and-printf">
+<h1 class="title">PrintStream and printf</h1>
+
+<p>You have already seen multiple time a basic way to print text and
+messages in programs:</p>
+<pre class="literal-block">
+System.out.println(&quot;hello!&quot;);
+</pre>
+<p>If we deconstruct this, we see three parts:</p>
+<ul class="simple">
+<li><tt class="docutils literal">System.out</tt> is the object that provides a service;</li>
+<li><tt class="docutils literal">println</tt> is the service provided, to print a message;</li>
+<li><tt class="docutils literal">&quot;hello!&quot;</tt> is the argument to the service, the message to be printed.</li>
+</ul>
+<p>Next to <tt class="docutils literal">println</tt>, <tt class="docutils literal">System.out</tt> provides other services to <em>print
+out</em> values towards the user.</p>
+<p><tt class="docutils literal">System.out</tt> is an object of type <tt class="docutils literal">PrintStream</tt>. The services
+offered by <tt class="docutils literal">System.out</tt> are provided by any object of the type
+<tt class="docutils literal">PrintStream</tt>.</p>
+<div class="section" id="services-provided-by-printstream">
+<h1>Services provided by <tt class="docutils literal">PrintStream</tt></h1>
+<p>The full documentation of the services offered by <tt class="docutils literal">PrintStream</tt> is available <a class="reference external" href="https://docs.oracle.com/javase/6/docs/api/java/io/PrintStream.html">in the JDK manual</a>;
+for the time being, you need only remember the following:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">println(...)</span></tt></dt>
+<dd>Print a message, then begin a new line of text afterwards. You knew this already.</dd>
+<dt><tt class="docutils literal"><span class="pre">print(...)</span></tt></dt>
+<dd><p class="first">Print a message, but do not begin a new line of text afterwards. The next use of <tt class="docutils literal">print</tt> or <tt class="docutils literal">println</tt> will append
+its message to the same line of output. For example:</p>
+<pre class="literal-block">
+System.out.print(&quot;hello&quot;);
+System.out.print(&quot;world&quot;);
+</pre>
+<p class="last">will print “helloworld” on a single line.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">printf(...)</span></tt></dt>
+<dd>Format zero or more values according to a format specification. See below for details.</dd>
+</dl>
+</div>
+<div class="section" id="formatted-output">
+<h1>Formatted output</h1>
+<p>A common task to perform in programs is “alignment”: print data in
+columns, ensuring that values under each other are properly aligned.
+Another common task is to format numbers according to some application-defined
+standard, for example “all grades should be printed with one decimal of accuracy” to say
+the program should print “7.0” and not simply “7”.</p>
+<p>Unfortunately, <tt class="docutils literal">print</tt> and <tt class="docutils literal">println</tt> do not know anything about alignment, decimal
+places and the like. To perform these additional tasks, the service <tt class="docutils literal">printf</tt> is provided.</p>
+<p>It is defined as follows:</p>
+<pre class="literal-block">
+printf(String format, ...)
+</pre>
+<p>This syntax indicates <tt class="docutils literal">printf</tt> takes at least one argument,
+something that evaluates to a string, and then zero or more additional
+arguments, which can be of any type.</p>
+<p>The semantics of <tt class="docutils literal">printf</tt> are as follows:</p>
+<ol class="arabic simple">
+<li><tt class="docutils literal">printf</tt> begins processing at the start of the format string;</li>
+<li>if the current character in the format string is not a “<tt class="docutils literal">%</tt>” character, it is printed
+to the output as-is (unchanged);</li>
+<li>otherwise, <tt class="docutils literal">printf</tt> looks after the <tt class="docutils literal">%</tt> sign until it encounters one of the following:</li>
+</ol>
+<blockquote>
+<ul class="simple">
+<li>a “<tt class="docutils literal">d</tt>”: the next argument in the remaining argument list is printed out in decimal;</li>
+<li>a “<tt class="docutils literal">s</tt>”: the next argument in the remaining argument list is printed as a string;</li>
+<li>a “<tt class="docutils literal">c</tt>”: the next argument in the remaining argument list is printed as a character;</li>
+<li>a “<tt class="docutils literal">f</tt>”: the next argument is printed as a number with a decimal point;</li>
+<li>a “<tt class="docutils literal">e</tt>”: the next argument is printed as a decimal number in scientific notation;</li>
+<li>a “<tt class="docutils literal">%</tt>”: the character “<tt class="docutils literal">%</tt>” is printed;</li>
+</ul>
+</blockquote>
+<ol class="arabic simple" start="4">
+<li>if there are more characters in the format string, then <tt class="docutils literal">printf</tt> moves
+to the next character and proceeds at step #2 above.</li>
+</ol>
+<p>Some examples:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="54%" />
+<col width="46%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Program text</th>
+<th class="head">What is printed</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">printf(&quot;&quot;)</span></tt></td>
+<td>(nothing)</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">printf(&quot;hello&quot;)</span></tt></td>
+<td><tt class="docutils literal">hello</tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">printf(&quot;hi</span> %d&quot;, 123)</tt></td>
+<td><tt class="docutils literal">hi 123</tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">printf(&quot;hi</span> %d, again&quot;, 123)</tt></td>
+<td><tt class="docutils literal">hi 123, again</tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">printf(&quot;%d</span> - %d: %d&quot;, 4, 8, 12)</tt></td>
+<td><tt class="docutils literal">4 - 8: 12</tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">printf(&quot;hi</span> <span class="pre">%s!&quot;,</span> &quot;bob&quot;)</tt></td>
+<td><tt class="docutils literal">hi bob!</tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">printf(&quot;%s%s&quot;,</span> &quot;your&quot;, &quot;world&quot;)</tt></td>
+<td><tt class="docutils literal">yourworld</tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">printf(&quot;score</span> = <span class="pre">%d%%.&quot;,</span> 13)</tt></td>
+<td><tt class="docutils literal">score = 13%.</tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">printf(&quot;pi</span> = %f&quot;, 3.14)</tt></td>
+<td><tt class="docutils literal">pi = 3.140000</tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">printf(&quot;10^3</span> = %e&quot;, 1000)</tt></td>
+<td><tt class="docutils literal">10^3 = 1.000000e+03</tt></td>
+</tr>
+</tbody>
+</table>
+<p>As you can see, each combination of <tt class="docutils literal">%</tt> followed by a character in
+the format string becomes a “hole” to be filled in by one of the
+remaining arguments.  This group formed by a <tt class="docutils literal">%</tt> followed by a
+special character is called a <em>format specifier</em>.  The last character
+in a format specifier (<tt class="docutils literal">s</tt>, <tt class="docutils literal">c</tt>, <tt class="docutils literal">d</tt>, <tt class="docutils literal">f</tt>, etc) is called the
+<em>format conversion</em>. There exist other conversions, but in this course
+you will mostly use <tt class="docutils literal">%d</tt>, <tt class="docutils literal">%s</tt>, <tt class="docutils literal">%c</tt>, <tt class="docutils literal">%f</tt> and <tt class="docutils literal">%%</tt>.</p>
+</div>
+<div class="section" id="format-specifier">
+<h1>Format specifier</h1>
+<p>The definition above says about specifiers, “<tt class="docutils literal">printf</tt> looks after
+the <tt class="docutils literal">%</tt> sign <em>until</em> it encounters one of the following”.  So there
+it is possible to express additional information between the “%” sign
+and the conversion, the special character that decides the type of
+value to convert. This extra information is used to control <em>how the
+formatting is done</em>.</p>
+<p>In this course, you will use use the following format specifiers:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="49%" />
+<col width="26%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Conversion</th>
+<th class="head">Meaning</th>
+<th class="head">Example</th>
+<th class="head">Prints</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">%f</tt></td>
+<td>Print the data as-is</td>
+<td><tt class="docutils literal"><span class="pre">printf(&quot;:%d:&quot;,</span> 12)</tt></td>
+<td><tt class="docutils literal">:12:</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">%Nf</tt></td>
+<td>Print at least N columns, align right</td>
+<td><tt class="docutils literal"><span class="pre">printf(&quot;:%5d:&quot;,</span> 12)</tt></td>
+<td><tt class="docutils literal">:&nbsp;&nbsp; 12:</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">%.Mf</tt></td>
+<td>Print M decimals (for floats only)</td>
+<td><tt class="docutils literal"><span class="pre">printf(&quot;:%.3f:&quot;,</span> 3.14)</tt></td>
+<td><tt class="docutils literal">:3.140:</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">%N.Mf</tt></td>
+<td>Align right to N columns, print M decimals</td>
+<td><tt class="docutils literal"><span class="pre">printf(&quot;:%5.1f:&quot;,</span> 3.14)</tt></td>
+<td><tt class="docutils literal">:&nbsp; 3.1:</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">%0Nf</tt></td>
+<td>Print at least N columns, align right, fill with 0</td>
+<td><tt class="docutils literal"><span class="pre">printf(&quot;:%05d:&quot;,</span> 12)</tt></td>
+<td><tt class="docutils literal">:00012:</tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">%-Nf</span></tt></td>
+<td>Print at least N columns, align left</td>
+<td><tt class="docutils literal"><span class="pre">printf(&quot;%-5d:&quot;,</span> 12)</tt></td>
+<td><tt class="docutils literal">:12&nbsp;&nbsp; :</tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="new-line-special-character">
+<h1>New line special character</h1>
+<p><tt class="docutils literal">printf</tt> behaves like <tt class="docutils literal">print</tt> in that it never starts a new line
+in the output by itself. So if you have the following code:</p>
+<pre class="literal-block">
+System.out.printf(&quot;hello %d&quot;, 123);
+System.out.printf(&quot;world&quot;);
+</pre>
+<p>the program will print “<tt class="docutils literal">hello 123world</tt>” on a single line.</p>
+<p>It is possible to force new lines using a special character
+combination: “<tt class="docutils literal">\n</tt>” (a backslash, then small letter <tt class="docutils literal">n</tt>).  So you
+can reproduce the behavior of <tt class="docutils literal">println</tt> for example as follows:</p>
+<pre class="literal-block">
+System.out.printf(&quot;hello\n&quot;);
+</pre>
+<p>It is also possible to use “<tt class="docutils literal">\n</tt>” in the middle of a format string,
+for example:</p>
+<pre class="literal-block">
+System.out.println(&quot;hello,\nworld!\n&quot;);
+</pre>
+<p>will print “hello,” on a first line, then “world!” on a second line.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">“<tt class="docutils literal">\n</tt>” is one of multiple special combinations that can be found
+in strings. This will be handled in a later lecture on <a class="reference external" href="stringchars.html">strings and
+character literals</a>.</p>
+</div>
+</div>
+<div class="section" id="important-concepts">
+<h1>Important concepts</h1>
+<ul class="simple">
+<li>the difference between <tt class="docutils literal">print</tt>, <tt class="docutils literal">println</tt> and <tt class="docutils literal">printf</tt>;</li>
+<li>how <tt class="docutils literal">printf</tt> interprets its <em>format string</em>;</li>
+<li>the difference between <em>format conversion</em> (1 character <tt class="docutils literal">s</tt>,
+<tt class="docutils literal">f</tt>, etc.) and <em>format specifier</em> (the entire group from <tt class="docutils literal">%</tt> to
+conversion);</li>
+<li>the  “basic” <em>format conversions</em>: <tt class="docutils literal">s</tt>, <tt class="docutils literal">f</tt>, <tt class="docutils literal">d</tt>, <tt class="docutils literal">c</tt>, <tt class="docutils literal">%</tt>;</li>
+<li>how to extend format specifiers for alignment and changing the number of decimals;</li>
+<li>using the special combination “<tt class="docutils literal">\n</tt>”.</li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1>Further reading</h1>
+<ul class="simple">
+<li>Introduction to Programming, section 2.4.1 (pp. 38-39)</li>
+<li>Absolute Java, section 2.1 (pp. 58-67), also exercises 1-7</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1>Copyright and licensing</h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>

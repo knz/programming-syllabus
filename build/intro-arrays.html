@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>Introduction to arrays</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="introduction-to-arrays">
+<h1 class="title">Introduction to arrays</h1>
+
+<p>Recall the example program that was given
+at the very beginning of the course:</p>
+<pre class="code java literal-block">
+<span class="kt">double</span><span class="w"> </span><span class="n">a</span><span class="o">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">1.55556</span><span class="p">,</span><span class="w"> </span><span class="mf">3.2123</span><span class="p">,</span><span class="w"> </span><span class="mf">3.11</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">};</span><span class="w">
+
+</span><span class="kt">double</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">
+
+</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">length</span><span class="p">)</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Maximum is &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">m</span><span class="p">);</span>
+</pre>
+<p>In this program, the variable “<tt class="docutils literal">a</tt>” refers to a sequence
+of numbers stored in memory; this is called an <em>array</em>.</p>
+<p>Arrays are a basic yet very powerful way to group values
+together in a program. Thanks to arrays, we (as programmers)
+do not need to give a separate, different name to every value
+in a sequence. For example instead of:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">23</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">x3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">45</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">x4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">67</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">x5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">89</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x4</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x5</span><span class="p">;</span>
+</pre>
+<p>We can write:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="o">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="mi">67</span><span class="p">,</span><span class="w"> </span><span class="mi">89</span><span class="p">};</span><span class="w">
+
+</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">
+   </span><span class="n">y</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">x</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span>
+</pre>
+<p>In Java and many other programming languages, arrays are
+<em>homogeneous</em>: <em>all elements in the array must have the same type</em>.</p>
+<p>To use arrays in Java programs, we must pay special and separate
+attention to the three following aspects:</p>
+<ul class="simple">
+<li><em>declaring</em> an array, which <em>prepares a name</em> that can designate an
+array;</li>
+<li><em>defining</em> an array, which <em>reserves space in memory</em> for all its elements;</li>
+<li><em>using</em> an array, when the individual elements are accessed separately.</li>
+</ul>
+<p>Using arrays is very simple, so we cover it first.</p>
+<div class="section" id="array-indexing">
+<h1>Array indexing</h1>
+<p>Syntax:</p>
+<blockquote>
+<p>&lt;expression&gt; <tt class="docutils literal">[</tt> &lt;expression&gt; <tt class="docutils literal">]</tt></p>
+<p>(An expression, followed by an opening square bracket “<tt class="docutils literal">[</tt>”,
+followed by another expression, followed by a closing square
+bracket “<tt class="docutils literal">]</tt>”. The second expression is called the <em>subscript</em>.</p>
+</blockquote>
+<p>Semantics:</p>
+<blockquote>
+<p>The expressions on the left and the right are evaluated.  If the
+result of evaluating the first expression is an array, the value of
+the subscript is used as index, and the element in the array
+at that position is accessed. If the first expression does not
+evaluate to an array, an error is reported.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The first element in an array has index 0. So if
+<tt class="docutils literal">x</tt> is an array, <tt class="docutils literal">x[0]</tt> is its first element.</p>
+</div>
+</blockquote>
+<p>Examples:</p>
+<pre class="code java literal-block">
+<span class="c1">// read x's first element and places it in y</span><span class="w">
+</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">;</span><span class="w">
+
+</span><span class="c1">// read x's 11th element and places it in y</span><span class="w">
+</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">[</span><span class="mi">10</span><span class="o">]</span><span class="p">;</span><span class="w">
+
+</span><span class="c1">// read the i-th element of x and place it in y</span><span class="w">
+</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span><span class="w">
+
+</span><span class="c1">// change the 2nd element of x to 123</span><span class="w">
+</span><span class="n">x</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="p">;</span><span class="w">
+
+</span><span class="c1">// change the 100th element of x to 42</span><span class="w">
+</span><span class="n">x</span><span class="o">[</span><span class="mi">99</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span><span class="w">
+
+</span><span class="c1">// change the i-th element of x to 69</span><span class="w">
+</span><span class="n">x</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">69</span><span class="p">;</span>
+</pre>
+</div>
+<div class="section" id="declaring-and-defining-arrays-in-java">
+<h1>Declaring and defining arrays in Java</h1>
+<p>In Java there exists a separation between the <em>declaration</em> of an
+array name, where a name is simply prepared, and the <em>definition</em> of
+an array which reserves space for the array elements in memory.</p>
+<p>This separation only exists in a few languages: it exists in C/C++ and
+Java, but not in ML, Python, R, Matlab and many others.</p>
+<p>Moreover, Java also provides a shorthand construct that combines
+declaration and definition in one to make them shorter. However,
+for learning purposes it is better to separate them.</p>
+<div class="section" id="array-declaration">
+<h2>Array declaration</h2>
+<p>Syntax:</p>
+<blockquote>
+<p>&lt;type&gt; <tt class="docutils literal">[</tt> <tt class="docutils literal">]</tt> &lt;name&gt; <tt class="docutils literal">;</tt></p>
+<p>(A type, followed by opening and closing square brackets without
+anything in between, followed by a name, followed by a semicolon)</p>
+</blockquote>
+<p>Semantics:</p>
+<blockquote>
+Prepare the name so that it can be later made to refer to an array.</blockquote>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">
+</span><span class="kt">double</span><span class="o">[]</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w">
+</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">z</span><span class="p">;</span>
+</pre>
+<p>This program fragment prepares the names <tt class="docutils literal">x</tt>, <tt class="docutils literal">y</tt> and <tt class="docutils literal">z</tt> so
+they can <em>later</em> refer to arrays of integer, floating-point
+and string elements.</p>
+<p>Note that the declaration merely prepares the name, so with
+only a declaration the array is not yet ready for use. For example
+the following program fragment is INCORRECT:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">
+
+</span><span class="n">x</span><span class="o">[</span><span class="mi">10</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="p">;</span><span class="w"> </span><span class="c1">// incorrect: x not defined yet</span>
+</pre>
+</div>
+</div>
+<div class="section" id="array-definition">
+<h1>Array definition</h1>
+<p>Syntax:</p>
+<blockquote>
+<p><tt class="docutils literal">new</tt> &lt;type&gt; <tt class="docutils literal">[</tt> &lt;expression&gt; <tt class="docutils literal">]</tt></p>
+<p>(The keyword “<tt class="docutils literal">new</tt>”, followed by a type, followed by an opening
+square bracket, followed by an expression called the <em>size</em>,
+followed by a closing square bracket)</p>
+</blockquote>
+<p>Semantics:</p>
+<blockquote>
+First the size expression is evaluated. Then space is reserved
+in memory for an array able to store that number of elements
+of the type given on the left. The newly created array is
+returned as result for the entire construct.</blockquote>
+<p>Once an array is created this way, it can be bound to
+a name prepared by an earlier declaration.
+For example:</p>
+<pre class="code java literal-block">
+<span class="c1">// declare the name &quot;x&quot;</span><span class="w">
+</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">
+
+</span><span class="c1">// make an array of 100 int's, bind it to &quot;x&quot;</span><span class="w">
+</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="mi">100</span><span class="o">]</span><span class="p">;</span><span class="w">
+
+</span><span class="c1">// now &quot;x&quot; is attached to an array,</span><span class="w">
+</span><span class="c1">// so we can modify it</span><span class="w">
+</span><span class="n">x</span><span class="o">[</span><span class="mi">10</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="p">;</span>
+</pre>
+</div>
+<div class="section" id="combined-array-declaration-and-definition">
+<h1>Combined array declaration and definition</h1>
+<p>The basic combination of a declaration and assignment, already seen in
+a previous lecture, applies here:</p>
+<blockquote>
+&lt;type&gt; &lt;name&gt; <tt class="docutils literal">=</tt> &lt;expression&gt; <tt class="docutils literal">;</tt></blockquote>
+<p>So we can simply combine as follows:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="mi">100</span><span class="o">]</span><span class="p">;</span><span class="w">
+
+</span><span class="c1">// is equivalent to:</span><span class="w">
+</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">          </span><span class="c1">// prepare a name</span><span class="w">
+</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="mi">100</span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="c1">// reserve space</span>
+</pre>
+</div>
+<div class="section" id="combined-declaration-and-definition-alternative">
+<h1>Combined declaration and definition (alternative)</h1>
+<p>You will encounter example programs or documentation
+that use another way to expression the combination
+of an array declaration and definition:</p>
+<blockquote>
+&lt;type&gt; &lt;name&gt; <tt class="docutils literal">[</tt> &lt;expression&gt; <tt class="docutils literal">]</tt>;</blockquote>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="o">[</span><span class="mi">100</span><span class="o">]</span><span class="p">;</span><span class="w">
+
+</span><span class="c1">// nearly equivalent to:</span><span class="w">
+</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="mi">100</span><span class="o">]</span><span class="p">;</span>
+</pre>
+<p>This construct is used often, mostly because it is shorted to
+write. However it is subtly different from the construct above, for
+reasons that will be explained in a later lecture.</p>
+<p>For the time being, you should consider only the first form
+above in your programs.</p>
+</div>
+<div class="section" id="size-of-an-array">
+<h1>Size of an array</h1>
+<p>In Java the <em>size</em> of any array can be queried using a special
+construct, separate from indexing:</p>
+<p>Syntax:</p>
+<blockquote>
+&lt;expression&gt; <tt class="docutils literal">.length</tt></blockquote>
+<p>Semantics:</p>
+<blockquote>
+Evaluates to the number of elements of the array
+designated by the expression on the left.</blockquote>
+<p>So if <tt class="docutils literal">x</tt> designates an array, <tt class="docutils literal">x.length</tt> designates
+its size (number of elements).</p>
+<p>For example:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="mi">100</span><span class="o">]</span><span class="p">;</span><span class="w">
+
+</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="na">length</span><span class="p">);</span>
+</pre>
+<p>This program fragments prints 100.</p>
+</div>
+<div class="section" id="examples">
+<h1>Examples</h1>
+<p>1) The following program reads 10 numbers into an array
+then computes and prints their sum:</p>
+<pre class="code java literal-block">
+<span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="mi">10</span><span class="o">]</span><span class="p">;</span><span class="w">
+</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">;</span><span class="w">
+
+</span><span class="n">Scanner</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">in</span><span class="p">);</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">
+   </span><span class="n">x</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">nextInt</span><span class="p">();</span><span class="w">
+
+</span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">
+   </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span><span class="w">
+</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">sum</span><span class="p">);</span>
+</pre>
+<p>2) <strong>Read an analyze the program Histogram provided in
+the accompanying source code repository.</strong></p>
+</div>
+<div class="section" id="important-concepts">
+<h1>Important concepts</h1>
+<ul class="simple">
+<li>Construct for array indexing, <em>subscript</em> expression;</li>
+<li>Difference between <em>declaration</em> and <em>definition</em>;</li>
+<li>Construct for array declaration;</li>
+<li>Construct for array definition;</li>
+<li>Combined array declaration and definition using <tt class="docutils literal">new</tt>;</li>
+<li>Size of an array with <tt class="docutils literal">.length</tt>.</li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1>Further reading</h1>
+<ul class="simple">
+<li>Think Java, chapter 12 (pp. 149-151, up to and including section 12.2),
+section 12.5 (p. 153), 12.8-12.10 (pp. 155-158)</li>
+<li>Introduction to Programming, section 3.8 up to and including 3.8.4
+(pp. 114-120)</li>
+<li>Absolute Java, section 6.1 (pp. 346-355)</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1>Copyright and licensing</h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>

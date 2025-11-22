@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>Introduction - “this is a program”</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="introduction-this-is-a-program">
+<h1 class="title">Introduction - “this is a program”</h1>
+
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#motivations-for-the-art-of-programming" id="toc-entry-1">Motivations for the art of programming</a></li>
+<li><a class="reference internal" href="#this-is-a-program" id="toc-entry-2">This is a program</a><ul>
+<li><a class="reference internal" href="#syntax-and-semantics" id="toc-entry-3">Syntax and semantics</a></li>
+<li><a class="reference internal" href="#example-semantic-rules" id="toc-entry-4">Example semantic rules</a></li>
+<li><a class="reference internal" href="#program-decomposition" id="toc-entry-5">Program decomposition</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#important-concepts" id="toc-entry-6">Important concepts</a></li>
+<li><a class="reference internal" href="#further-reading" id="toc-entry-7">Further reading</a></li>
+<li><a class="reference internal" href="#copyright-and-licensing" id="toc-entry-8">Copyright and licensing</a></li>
+</ul>
+</div>
+<div class="section" id="motivations-for-the-art-of-programming">
+<h1><a class="toc-backref" href="#toc-entry-1">Motivations for the art of programming</a></h1>
+<p>There exist two main reasons why people write programs:</p>
+<ul class="simple">
+<li>to automate tasks, so the tasks can be performed by a computer or
+robot instead of a person; this is called <em>software engineering</em>;</li>
+<li>to create structure in human thoughts, so the thoughts can be
+checked more thoroughly by other people or by computers, this is
+called <em>formalization</em>.</li>
+</ul>
+<p>A programmer writing programs can be motivated by either of these
+reasons or both simultaneously. Meanwhile, <em>different programming languages exist
+that are better suited to one or the other</em> of these activities.</p>
+<p>Historically, most programmers have first been interested in
+automation, so the largest number of courses, tutorials, programming
+languages and software utilities is dedicated to support learning and
+practicing software engineering. For example, <em>Java is a programming
+language that was designed expressely for software engineering</em>, and
+the ecosystem of Java programming tools helps in this direction.</p>
+<p>However, there exists also a world of programming where practitioners
+are primarily interested in writing equations that externalize how
+people think, so they can write down their abstract ideas formally and
+share them precisely with others. <em>Only few people practice this
+formalization activity, but a lot of their ideas have proven very
+powerful to software engineers: they often make the task of software
+engineering simpler and more efficient, and they provide concepts that
+can be reused directly across many programming languages.</em> Although
+this course focuses primarily on software engineering and Java, I will
+sometime refer to such formal concepts, especially those that can be
+reused across multiple programming languages.</p>
+</div>
+<div class="section" id="this-is-a-program">
+<h1><a class="toc-backref" href="#toc-entry-2">This is a program</a></h1>
+<p>Let us consider the following Python program (<tt class="docutils literal">Max.py</tt>):</p>
+<pre class="code python literal-block">
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.55556</span><span class="p">,</span> <span class="mf">3.2123</span><span class="p">,</span> <span class="mf">3.11</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="w">
+</span><span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="w">
+</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="w">
+</span><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">):</span><span class="w">
+</span>   <span class="k">if</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="w">
+</span>      <span class="n">m</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w">
+</span>   <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="w">
+</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Maximum is &quot;</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+</pre>
+<p>A program in a language like Java or Python is like a recipe book: any
+part of it describes a <em>sequence of steps</em> to perform. In the case of
+this example, there is one such step per line in the first 3 lines;
+then a line with the special word <tt class="docutils literal">while</tt> which indicates to
+<em>repeat</em> the next 3 lines multiple times. When the repetition is
+completed, the step described in the last line is performed.</p>
+<p>Such a high-level explanation is sufficient to get a general
+intuition, but a more careful analysis is needed to get a <em>precise</em>
+understanding of what this program does.</p>
+<div class="section" id="syntax-and-semantics">
+<h2><a class="toc-backref" href="#toc-entry-3">Syntax and semantics</a></h2>
+<p>The text of a program, also called its <em>code</em>, is composed of words and
+punctuation. There are three types of words in every language:
+<em>keywords</em> are words reserved by the language that have always the
+same meaning; <em>identifiers</em> or <em>names</em> are words that are freely
+chosen by a programmer to <em>designate</em> abstract values or things; and
+<em>literal strings</em> are words that represent themselves.</p>
+<p>How does one distinguish keywords from identifiers? Text editors will
+often automatically recognize keywords and give them a different
+color, like in the example above. Usually, a programming language only
+has very few keywords so it is possible to learn them by heart.</p>
+<p>For example, in the program above, “<tt class="docutils literal">while</tt>” is a keyword, “<tt class="docutils literal">len</tt>” and
+“<tt class="docutils literal">print</tt>” are identifiers chosen by programmers whom you likely haven't met,
+“<tt class="docutils literal">a</tt>”, “<tt class="docutils literal">m</tt>” and “<tt class="docutils literal">i</tt>” are identifiers chosen by myself, and
+“<tt class="docutils literal">&quot;Maximum is&quot;</tt>” is a literal string that represents the text “Maximum is”.</p>
+<p>The meaning of a program, also called its <em>semantics</em>, is given by
+rules in the programming language. The <em>semantic rules</em> in a
+programming language are rules that <em>associate a general meaning to
+every program fragment that use a particular syntax form</em>.</p>
+</div>
+<div class="section" id="example-semantic-rules">
+<h2><a class="toc-backref" href="#toc-entry-4">Example semantic rules</a></h2>
+<p>To start, the language Python has a semantic rule that looks like this:</p>
+<ol class="arabic">
+<li><p class="first"><em>Assignment</em>:</p>
+<p>Syntax: &lt;identifier&gt; <tt class="docutils literal">=</tt> &lt;expression&gt;</p>
+<p>Semantics: a statement of this form, when encountered during execution,
+will assign the value of the expression on the right side of “<tt class="docutils literal">=</tt>” to
+the <em>variable</em> designated by the name on the left side. If the variable
+does not exist yet, it is created automatically.</p>
+</li>
+</ol>
+<p>Using this rule, we can give meaning to a construct like “<tt class="docutils literal">m = 0</tt>”:
+when this line is reached during execution, the value 0 is assigned to
+the variable designated by <tt class="docutils literal">m</tt>. Since no such variable exists yet,
+it is created at that point. Likewise, for “<tt class="docutils literal">i = i + 1</tt>”: when this
+line is reached during execution, the value computed by <tt class="docutils literal">i + 1</tt> is
+stored in the variable designated by <tt class="docutils literal">i</tt>, which was created by <tt class="docutils literal">i =
+0</tt> a few steps earlier.</p>
+<p>What is a variable? <em>A variable is a location in the computer's memory where
+you can store values.</em> In most cases, variables can be modified: the value
+stored “in the variable” can be changed by the program over time. Changing
+the value of a variable is what is called an “assignment”.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Most languages designed for software engineering have at
+least one construct to perform assignments to variables, ie. change
+their value. The family of all programming languages that provide
+variables and assignments is collectively called “imperative
+languages”. Python and Java are such imperative languages.</p>
+<p class="last">In Java, the syntax for assignments is the same as in
+Python: a name followed by a single “<tt class="docutils literal">=</tt>” followed by an
+expression. It has a slightly different semantics however: the
+variable is not created automatically by an assignment in Java; it
+must be defined separately, using a separate construct which will
+be described later.</p>
+</div>
+<p>The other semantic rules that are key to understand the example program above are:</p>
+<ol class="arabic" start="2">
+<li><p class="first"><em>Addition</em>:</p>
+<p>Syntax: &lt;expression&gt; <tt class="docutils literal">+</tt> &lt;expression&gt;</p>
+<p>Semantics: the expressions on both sides are first evaluated; the
+value of the combined expression is the result of adding the value
+of the expression on the left side to the value of the expression
+on the right side.</p>
+</li>
+<li><p class="first"><em>Comparison</em>:</p>
+<p>Syntax: &lt;expression&gt; <tt class="docutils literal">&lt;</tt> &lt;expression&gt;</p>
+<p>Semantics: the expressions on both sides are first evaluated; the
+value of the combined expression is true if and only if the value
+of the expression on the left side is strictly lower than the value
+of the expression on the right side.</p>
+</li>
+<li><p class="first"><em>Repetition</em></p>
+<p>Syntax:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal">while</tt> &lt;expression&gt; :</div>
+<div class="line-block">
+<div class="line">&lt;block&gt;</div>
+</div>
+</div>
+<p>Semantics: the block is executed repeatedly as long
+as the expression on the first line evaluates to true.</p>
+</li>
+<li><p class="first"><em>Indexing</em></p>
+<p>Syntax: &lt;identifier&gt; <tt class="docutils literal">[</tt> &lt;expression&gt; <tt class="docutils literal">]</tt></p>
+<p>Semantics: the expression between the square brackets is evaluated,
+then its value is used as index to one element of the array (table)
+identified by the name on the left.</p>
+</li>
+<li><p class="first"><em>Function call</em></p>
+<p>Syntax: &lt;identifier&gt; <tt class="docutils literal">(</tt> &lt;expression&gt; <sub>[</sub> <tt class="docutils literal">,</tt> &lt;expression&gt; <sub>]*</sub> <tt class="docutils literal">)</tt></p>
+<p>Semantics: when evaluating an expression of this form, first
+the expressions between parentheses are evaluated; then the function
+designated by the name on the right is invoked using
+the value of the expressions between parentheses as input arguments;
+when it completes execution, its return value becomes the value
+of the entire expression.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The syntax for this last rule uses the notation <sub>[</sub>
+<sub>]*</sub> to indicate zero or more repetitions of the syntax
+between <sub>[]</sub>. Thanks to this, the rule
+applies to both <tt class="docutils literal">len(a)</tt> and <tt class="docutils literal"><span class="pre">print(&quot;Maximum</span> is&quot;, m)</tt>.</p>
+</div>
+</li>
+<li><p class="first"><em>Conditional execution</em></p>
+<p>Syntax:</p>
+<div class="line-block">
+<div class="line"><tt class="docutils literal">if</tt> &lt;expression&gt; :</div>
+<div class="line-block">
+<div class="line">&lt;block&gt;</div>
+</div>
+</div>
+<p>Semantics: the expression is evaluated; then the block is executed
+if and only if the resulting value is true.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Rules #2, #3, #5, #6 are the same in Java. Java
+also has repetition and conditional execution, however it
+has a different syntax for it. This will be described later.</p>
+</div>
+</div>
+<div class="section" id="program-decomposition">
+<h2><a class="toc-backref" href="#toc-entry-5">Program decomposition</a></h2>
+<p>Using these  rules, we can <em>decompose</em> the meaning of a program
+by <em>recognizing which semantic rule apply to each syntax form</em>:</p>
+<ul class="simple">
+<li>the 1st line, by rule #1, is an assignment; it creates a variable
+called “<tt class="docutils literal">a</tt>” and assigns the table of 6 values <tt class="docutils literal">[1.55556, 3.2123,
+3.11, 1, 0, 2]</tt> to it.</li>
+<li>the 2nd line, by rule #1, is also an assignment; it creates a
+variable called “<tt class="docutils literal">m</tt>” and assigns the value 0 to it.</li>
+<li>the 3rd line, by rule #1, is also an assignment; it creates a
+variable called “<tt class="docutils literal">i</tt>” and assigns the value 0 to it.</li>
+<li>the 4th line to the 7th line, as a whole, are a repetition due
+to rule #4. The block formed by lines 5-7 is repeated
+as long as the expression <tt class="docutils literal">i &lt; len(a)</tt> evaluates to true.</li>
+<li>the form <tt class="docutils literal">i &lt; len(a)</tt>, is a comparison due to rule #3; it
+compares the current value of the variable designed by <tt class="docutils literal">i</tt> to
+the value of <tt class="docutils literal">len(a)</tt>.</li>
+<li>the form <tt class="docutils literal">len(a)</tt> is a function call due to rule #6; it
+invokes the function <tt class="docutils literal">len</tt> on the value of the variable
+named <tt class="docutils literal">a</tt>, which is the table of 6 elements. As the Python
+documentation then reveals, <tt class="docutils literal">len</tt> returns the number
+of elements in the array, so it is always 6 in this program.</li>
+<li>the 5th and 6th lines, together, are a conditional execution due to
+rule #7. It evaluates the condition <tt class="docutils literal">m &lt; a[i]</tt> then executes <tt class="docutils literal">m =
+a[i]</tt> if and only if the condition is true.</li>
+<li><tt class="docutils literal">m &lt; a[i]</tt> is a comparison as per rule #3. See above.</li>
+<li><tt class="docutils literal">a[i]</tt> is an indexing as per rule #5; it retrieves the element
+in the array/table named <tt class="docutils literal">a</tt> at the position indicated by <tt class="docutils literal">i</tt>.</li>
+<li><tt class="docutils literal">m = a[i]</tt> is an assignment as per rule #1. See above.</li>
+<li><tt class="docutils literal">i = i + 1</tt> is an assignment as per rule #1. See above. In turn it
+uses <tt class="docutils literal">i + 1</tt> which is an addition as per rule #2.</li>
+<li><tt class="docutils literal"><span class="pre">print(&quot;Maximum</span> is &quot;, m)</tt> is a function call as per rule #6.</li>
+</ul>
+<p>Once the program is decomposed, we can reconstruct its overall meaning
+by reading aloud the meaning of the individual lines:</p>
+<ol class="arabic simple">
+<li>create a variable <tt class="docutils literal">a</tt> and set it to the table of 6 values;</li>
+<li>create a variable <tt class="docutils literal">m</tt> and set it to 0;</li>
+<li>create a variable <tt class="docutils literal">i</tt> and set it to 0;</li>
+<li>repeat steps 5-7 below as long as <tt class="docutils literal">i</tt> is strictly smaller than 6:</li>
+<li>if <tt class="docutils literal">m</tt> is strictly lower than the item in <tt class="docutils literal">a</tt> at position
+<tt class="docutils literal">i</tt>, then do step 6; otherwise go directly to 7;</li>
+<li>set <tt class="docutils literal">m</tt> to the item in <tt class="docutils literal">a</tt> at position <tt class="docutils literal">i</tt>;</li>
+<li>set <tt class="docutils literal">i</tt> to the sum of the (previous) value of <tt class="docutils literal">i</tt> and 1;</li>
+<li>print the text “Maximum is ” followed by the value of <tt class="docutils literal">m</tt>.</li>
+</ol>
+<p>Do you recognize it? This example program computes the maximum value in
+the table of 6 values.</p>
+<p>This intellectual step where you recognize the overall meaning of a
+program fragment from a step-wise, piecemeal decomposition is called
+<em>reverse-engineering</em>. This task is not easy initially, but it becomes
+easier with practice. Also, in many cases the programs you will read
+will contain comments and annotations by their original writer, to
+help you understand the program code.</p>
+</div>
+</div>
+<div class="section" id="important-concepts">
+<h1><a class="toc-backref" href="#toc-entry-6">Important concepts</a></h1>
+<p>You must be able to explain in your own words:</p>
+<ul class="simple">
+<li><em>software engineering</em> and <em>formalization</em>;</li>
+<li><em>sequence of steps</em></li>
+<li>program text = <em>code</em>;</li>
+<li><em>keywords</em>, <em>identifiers</em>/<em>names</em>;</li>
+<li><em>syntax</em>, <em>semantics</em>, <em>semantic rules</em>, and how to read semantic rules;</li>
+<li><em>variables</em> and <em>assignment</em>;</li>
+<li><em>addition</em>, <em>comparison</em>, and <em>indexing</em> for expressions;</li>
+<li><em>function calls</em>;</li>
+<li><em>conditional execution</em>, <em>repetition</em> (note there are differences here between Java and Python)</li>
+<li><em>program decomposition</em></li>
+<li><em>reverse-engineering</em></li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1><a class="toc-backref" href="#toc-entry-7">Further reading</a></h1>
+<ul class="simple">
+<li>Absolute Java, section 1.2 (pp. 13-20)</li>
+<li>Think Java, chapter 1 (pp. 1-12), sections 2.2, 2.3, 2.5-2.7, 2.9-2.11 (pp. 15-24)</li>
+<li>Introduction to Programming, section 1.4 (pp 8-10), section 2.2.1
+(pp 23-25), section 3.3.2 (pp. 82-84), section 3.5 (pp 96-104), 4.1
+(pp. 135-137)</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1><a class="toc-backref" href="#toc-entry-8">Copyright and licensing</a></h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>

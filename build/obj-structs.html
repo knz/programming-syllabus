@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<title>Using objects for data structuring</title>
+<link rel="stylesheet" href="aux/min.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="using-objects-for-data-structuring">
+<h1 class="title">Using objects for data structuring</h1>
+
+<p>This lecture follows up on the earlier <a class="reference external" href="objintro.html">Introduction to
+Objects</a>. You should re-read these earlier lecture notes before
+starting here.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#what-you-already-know" id="toc-entry-1">What you already know</a></li>
+<li><a class="reference internal" href="#motivation-for-creating-your-own-objects" id="toc-entry-2">Motivation for creating your own objects</a></li>
+<li><a class="reference internal" href="#example-car-modeling" id="toc-entry-3">Example: car modeling</a></li>
+<li><a class="reference internal" href="#base-language-constructs" id="toc-entry-4">Base language constructs</a><ul>
+<li><a class="reference internal" href="#class-definition-and-method-invocation" id="toc-entry-5">Class definition and method invocation</a></li>
+<li><a class="reference internal" href="#object-declaration-and-definition" id="toc-entry-6">Object declaration and definition</a></li>
+<li><a class="reference internal" href="#attribute-access" id="toc-entry-7">Attribute access</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#class-constructor" id="toc-entry-8">Class constructor</a></li>
+<li><a class="reference internal" href="#vocabulary" id="toc-entry-9">Vocabulary</a></li>
+<li><a class="reference internal" href="#important-concepts" id="toc-entry-10">Important concepts</a></li>
+<li><a class="reference internal" href="#further-reading" id="toc-entry-11">Further reading</a></li>
+<li><a class="reference internal" href="#copyright-and-licensing" id="toc-entry-12">Copyright and licensing</a></li>
+</ul>
+</div>
+<div class="section" id="what-you-already-know">
+<h1><a class="toc-backref" href="#toc-entry-1">What you already know</a></h1>
+<p>Since the beginning of the course you have used three object classes
+extensively: <tt class="docutils literal">String</tt>, <tt class="docutils literal">PrintStream</tt> and <tt class="docutils literal">Scanner</tt>. What do you
+know already about them?</p>
+<ul>
+<li><p class="first">they <em>behave like types</em>: you can “make” objects of these types using
+a regular variable declaration, for example:</p>
+<pre class="literal-block">
+String s = ...;
+Scanner in = ...;
+</pre>
+</li>
+<li><p class="first">they <em>provide services</em> via their methods, which you can invoke
+using dot-notation, for example:</p>
+<pre class="literal-block">
+in.nextInt()  // for Scanner
+
+s.equals(...)  // for String
+</pre>
+</li>
+</ul>
+<p>From these two things alone you already know two fundamental
+properties of objects:</p>
+<ul class="simple">
+<li>two distinct objects of the same class have “their own” different data; for example
+to variables of type <tt class="docutils literal">String</tt> can hold different character strings;</li>
+<li>the dot-notation accesses the method “inside” the object – so that two
+different classes can provide different methods with the same name.</li>
+</ul>
+<p>These two properties are called <em>encapsulation</em> in language theory:
+the methods and data of an object are encapsulated within it, and
+two different objects encapsulate different data and methods.</p>
+</div>
+<div class="section" id="motivation-for-creating-your-own-objects">
+<h1><a class="toc-backref" href="#toc-entry-2">Motivation for creating your own objects</a></h1>
+<p>The main reason why you would want to start defining your own classes
+and objects is when you have groups of variables that are always used
+together, so you may want to give them a common name.</p>
+<p>Of course you have already seen how to use arrays for this purpose;
+arrays like objects are also a way to group values together. (see
+<a class="reference external" href="intro-arrays.html">Introduction to Arrays</a> for a reminder) However, objects provide you with
+two additional benefits compared to arrays:</p>
+<ul class="simple">
+<li>you can <em>group values of different types</em> (in contrast to arrays, which must be homogeneous)</li>
+<li>on top of grouping values together, you <em>can create your own methods</em>, too!</li>
+</ul>
+</div>
+<div class="section" id="example-car-modeling">
+<h1><a class="toc-backref" href="#toc-entry-3">Example: car modeling</a></h1>
+<p>Say for example you want to implement an application that simulates
+the traffic of cars in a city. For every car, your program must manipulate its
+coordinates. So for every car in the
+program, we have at least 2 related variables that must be manipulated together.</p>
+<p>To represent this model of a car, we can use a class with 2 <em>attributes</em>, defined as follows:</p>
+<pre class="code java literal-block">
+<span class="kd">class</span> <span class="nc">Car</span><span class="w">
+</span><span class="p">{</span><span class="w">
+     </span><span class="c1">// Coordinates:</span><span class="w">
+     </span><span class="kt">float</span><span class="w"> </span><span class="n">posX</span><span class="p">;</span><span class="w">
+     </span><span class="kt">float</span><span class="w"> </span><span class="n">posY</span><span class="p">;</span><span class="w">
+</span><span class="p">};</span>
+</pre>
+<p>With this very simple class, we can manipulate cars as follows:</p>
+<pre class="code java literal-block">
+<span class="c1">// Declare a name for a car and “make” a new car</span><span class="w">
+</span><span class="n">Car</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Car</span><span class="p">();</span><span class="w">
+
+</span><span class="c1">// Change the attributes in the first car</span><span class="w">
+</span><span class="n">a</span><span class="p">.</span><span class="na">posX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w">
+</span><span class="n">a</span><span class="p">.</span><span class="na">posY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">45</span><span class="p">;</span><span class="w">
+
+</span><span class="n">Car</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Car</span><span class="p">();</span><span class="w">
+
+</span><span class="c1">// Change the attributes in the 2nd car</span><span class="w">
+</span><span class="n">b</span><span class="p">.</span><span class="na">posX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">44</span><span class="p">;</span><span class="w">
+</span><span class="n">b</span><span class="p">.</span><span class="na">posY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">14</span><span class="p">;</span><span class="w">
+
+</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="na">posY</span><span class="p">);</span><span class="w">
+</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="na">posY</span><span class="p">);</span>
+</pre>
+<p>This program fragment prints 45 and 14: each car <em>instance</em> (named by
+<tt class="docutils literal">a</tt> and <tt class="docutils literal">b</tt>) has its “own” <tt class="docutils literal">posY</tt> coordinate, different between
+objects.</p>
+<p>Say now we want to implement a method for a car which tells how
+far away it is from another car, so we can write for example:</p>
+<pre class="literal-block">
+a.distanceTo(b)
+</pre>
+<p>to measure the distance from a to b.</p>
+<p>(Remember, the distance between two points (x1,y1) and (x2,y2) is given
+by the formula <span class="formula"><span class="sqrt"><span class="radical">√</span><span class="ignored">(</span><span class="root">(<i>x</i>2 − <i>x</i>1)<sup>2</sup> + (<i>y</i>2 − <i>y</i>1)<sup>2</sup></span><span class="ignored">)</span></span></span>.)</p>
+<p>To do this, we can add the <em>definition of a method</em> inside our class
+<tt class="docutils literal">Car</tt> as follows:</p>
+<pre class="code java literal-block">
+<span class="kd">class</span> <span class="nc">Car</span><span class="w">
+</span><span class="p">{</span><span class="w">
+     </span><span class="c1">// Coordinates:</span><span class="w">
+     </span><span class="kt">float</span><span class="w"> </span><span class="n">posX</span><span class="p">;</span><span class="w">
+     </span><span class="kt">float</span><span class="w"> </span><span class="n">posY</span><span class="p">;</span><span class="w">
+
+     </span><span class="c1">// Distance from this car to another</span><span class="w">
+     </span><span class="kt">float</span><span class="w"> </span><span class="nf">distanceTo</span><span class="p">(</span><span class="n">Car</span><span class="w"> </span><span class="n">other</span><span class="p">)</span><span class="w">
+     </span><span class="p">{</span><span class="w">
+        </span><span class="kt">float</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">posX</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">other</span><span class="p">.</span><span class="na">posX</span><span class="p">;</span><span class="w">
+        </span><span class="kt">float</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">posY</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">other</span><span class="p">.</span><span class="na">posY</span><span class="p">;</span><span class="w">
+        </span><span class="k">return</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">sqrt</span><span class="p">(</span><span class="n">dx</span><span class="o">*</span><span class="n">dx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dy</span><span class="o">*</span><span class="n">dy</span><span class="p">);</span><span class="w">
+     </span><span class="p">}</span><span class="w">
+</span><span class="p">};</span>
+</pre>
+<p>What is going on here?</p>
+<p>In the expression <tt class="docutils literal">a.distanceTo(b)</tt>, the value of <tt class="docutils literal">b</tt> is provided
+as argument “<tt class="docutils literal">other</tt>” to the method body. So the expression
+“<tt class="docutils literal">other.posX</tt>” will effectively refer to <tt class="docutils literal">b.posX</tt>.</p>
+<p>In addition to this, <tt class="docutils literal">distanceTo</tt> receives the object to the left
+(“<tt class="docutils literal">a</tt>” in “<tt class="docutils literal">a.distanceTo</tt>”) as <em>implicit argument</em> called
+“<tt class="docutils literal">this</tt>”. So when expressing “<tt class="docutils literal">a.distanceTo(b)</tt>” the expression
+“<tt class="docutils literal">this.posX</tt>” inside <tt class="docutils literal">distanceTo</tt>'s body (ig. the left side in
+“<tt class="docutils literal">this.posX - other.posX</tt>”) will effectively refer to <tt class="docutils literal">a.posX</tt>.</p>
+</div>
+<div class="section" id="base-language-constructs">
+<h1><a class="toc-backref" href="#toc-entry-4">Base language constructs</a></h1>
+<p>There are 5 language constructs relevant to use object in Java:</p>
+<ul class="simple">
+<li>the <em>class definition</em>, where you define your own classes (eg. “<tt class="docutils literal">class Car { ... }</tt>”);</li>
+<li>the <em>method invocation</em>, where you use methods in objects (eg. “<tt class="docutils literal">a.method(b,c,d)</tt>”);</li>
+<li>the <em>object declaration</em>, where you prepare a name that can refer to objects (eg. “<tt class="docutils literal">Car a;</tt>”);</li>
+<li>the <em>object definition</em>, where you actually reserve space in memory to store an object (eg. “<tt class="docutils literal">new Car()</tt>”);</li>
+<li>the <em>attribute access</em> construct, where you use a variable “inside” an object (eg. “<tt class="docutils literal">a.posX</tt>”);</li>
+</ul>
+<div class="section" id="class-definition-and-method-invocation">
+<h2><a class="toc-backref" href="#toc-entry-5">Class definition and method invocation</a></h2>
+<p>The constructs for <em>class definition</em> and the <em>method invocation</em> have
+already been presented in the earlier lecture <a class="reference external" href="objintro.html">Introduction to
+Objects</a>. Read them again to make sure you know their general form.</p>
+</div>
+<div class="section" id="object-declaration-and-definition">
+<h2><a class="toc-backref" href="#toc-entry-6">Object declaration and definition</a></h2>
+<p>The difference between object declaration and object definition is
+conceptually the same as the difference between array declaration and
+array definition, seen in the earlier lecture <a class="reference external" href="intro-arrays.html">Introduction to
+Arrays</a>. Read this again before you continue here.</p>
+<p>The constructs for object declaration and object definition are defined like for arrays:</p>
+<p><em>Object declaration:</em></p>
+<blockquote>
+<p>Syntax:</p>
+<blockquote>
+&lt;classname&gt; &lt;objectname&gt; <tt class="docutils literal">;</tt></blockquote>
+<p>Semantics:</p>
+<blockquote>
+Prepare the name &lt;objectname&gt; so that it can later designate
+an object of class &lt;classname&gt;.</blockquote>
+</blockquote>
+<p>For example:</p>
+<pre class="literal-block">
+Car a;
+</pre>
+<p>prepares the name <tt class="docutils literal">a</tt> so it can be later bound to an instance of class <tt class="docutils literal">Car</tt>.</p>
+<p><em>Object definition:</em></p>
+<blockquote>
+<p>Syntax:</p>
+<blockquote>
+<tt class="docutils literal">new</tt> &lt;classname&gt; <tt class="docutils literal">(</tt> <tt class="docutils literal">)</tt></blockquote>
+<p>Semantics:</p>
+<blockquote>
+Reserve space in memory for an instance of the class &lt;classname&gt;.
+The construct evaluates to the newly created instance.</blockquote>
+</blockquote>
+<p>For example:</p>
+<pre class="literal-block">
+new Car()
+</pre>
+<p>creates a new instance of class <tt class="docutils literal">Car</tt>.</p>
+<p>Like usual in Java, the two constructs can be combined in a single declaration and definition:</p>
+<p><em>Combined object declaration and definition:</em></p>
+<blockquote>
+<p>Syntax:</p>
+<blockquote>
+&lt;classname&gt; &lt;objectname&gt; <tt class="docutils literal">=</tt> <tt class="docutils literal">new</tt> &lt;classname&gt; <tt class="docutils literal">(</tt> <tt class="docutils literal">)</tt> <tt class="docutils literal">;</tt></blockquote>
+<p>Semantics:</p>
+<blockquote>
+“Make`` a new object of class &lt;classname&gt; and bind it to the name &lt;objectname&gt;.</blockquote>
+</blockquote>
+<p>For example:</p>
+<pre class="literal-block">
+Car a = new Car()
+</pre>
+<p>creates a new object of class <tt class="docutils literal">Car</tt> and binds it to the name <tt class="docutils literal">a</tt>.</p>
+</div>
+<div class="section" id="attribute-access">
+<h2><a class="toc-backref" href="#toc-entry-7">Attribute access</a></h2>
+<p>The new construct introduced in this lecture is the attribute access, which
+is similar to the method invocation:</p>
+<blockquote>
+<p>Syntax:</p>
+<blockquote>
+&lt;expression&gt; <tt class="docutils literal">.</tt> &lt;name&gt;</blockquote>
+<p>Semantics:</p>
+<blockquote>
+Evaluate the expression to the left. The result of this first
+evaluation must be an instance containing an instance variable with the
+name given on the right.  The result of the entire evaluation is
+the instance variable (attribute in the object).</blockquote>
+</blockquote>
+<p>For example:</p>
+<pre class="literal-block">
+a.posX
+</pre>
+<p>accesses the variable <tt class="docutils literal">posX</tt> in the instance named by <tt class="docutils literal">a</tt>.</p>
+</div>
+</div>
+<div class="section" id="class-constructor">
+<h1><a class="toc-backref" href="#toc-entry-8">Class constructor</a></h1>
+<p>When using your own objects, there is a pattern that often comes
+back in programs, for example:</p>
+<pre class="code java literal-block">
+<span class="c1">// Example 1</span><span class="w">
+</span><span class="n">Car</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Car</span><span class="p">();</span><span class="w">
+</span><span class="n">a</span><span class="p">.</span><span class="na">posX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span><span class="w">
+</span><span class="n">a</span><span class="p">.</span><span class="na">posY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">45</span><span class="p">;</span><span class="w">
+
+</span><span class="c1">// Example 1</span><span class="w">
+</span><span class="n">Car</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Car</span><span class="p">();</span><span class="w">
+</span><span class="n">b</span><span class="p">.</span><span class="na">posX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">121</span><span class="p">;</span><span class="w">
+</span><span class="n">b</span><span class="p">.</span><span class="na">posY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="p">;</span><span class="w">
+
+</span><span class="c1">// Example 1</span><span class="w">
+</span><span class="n">Car</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Car</span><span class="p">();</span><span class="w">
+</span><span class="n">c</span><span class="p">.</span><span class="na">posX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">66</span><span class="p">;</span><span class="w">
+</span><span class="n">c</span><span class="p">.</span><span class="na">posY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">86</span><span class="p">;</span>
+</pre>
+<p>The common pattern in these examples is “create an object and set its
+attributes to an initial value.”  The idea here is that anytime an
+object is created in a program, almost certainly we want its
+attributes to be initialized at the same time.</p>
+<p>For this all object-oriented languages define a common construct,
+called the <em>class constructor</em>. It is best shown with an example:</p>
+<pre class="code java literal-block">
+<span class="kd">class</span> <span class="nc">Car</span><span class="w">
+</span><span class="p">{</span><span class="w">
+     </span><span class="c1">// Coordinates:</span><span class="w">
+     </span><span class="kt">float</span><span class="w"> </span><span class="n">posX</span><span class="p">;</span><span class="w">
+     </span><span class="kt">float</span><span class="w"> </span><span class="n">posY</span><span class="p">;</span><span class="w">
+
+     </span><span class="c1">// Constructor</span><span class="w">
+     </span><span class="n">Car</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w">
+     </span><span class="p">{</span><span class="w">
+        </span><span class="k">this</span><span class="p">.</span><span class="na">posX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">
+        </span><span class="k">this</span><span class="p">.</span><span class="na">posY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w">
+     </span><span class="p">}</span><span class="w">
+
+     </span><span class="p">...</span><span class="w">
+</span><span class="p">};</span><span class="w">
+
+</span><span class="c1">// then elsewhere:</span><span class="w">
+
+</span><span class="n">Car</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Car</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">);</span><span class="w">
+</span><span class="n">Car</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Car</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">);</span><span class="w">
+</span><span class="n">Car</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Car</span><span class="p">(</span><span class="mi">66</span><span class="p">,</span><span class="w"> </span><span class="mi">86</span><span class="p">);</span>
+</pre>
+<p>In general, the constructor of a class is a special function
+definition inside the class body, with the following two syntactic
+properties:</p>
+<ul class="simple">
+<li>the name of the constructor must be the name of the class;</li>
+<li>it does not have a return type (no “<tt class="docutils literal">void</tt>”, “<tt class="docutils literal">float</tt>” etc before its name).</li>
+</ul>
+<p>Semantically, the constructor defines a <em>function that is called
+automatically when defining an new object with ``new``</em>. Inside
+the constructor body, the implicit variable “<tt class="docutils literal">this</tt>” refers to the
+newly created object.</p>
+<p>So we must extend the construct for an object definition as follows:</p>
+<p><em>Object definition:</em></p>
+<blockquote>
+<p>Syntax:</p>
+<blockquote>
+<tt class="docutils literal">new</tt> &lt;classname&gt; <tt class="docutils literal">(</tt> &lt;arguments&gt; <tt class="docutils literal">)</tt></blockquote>
+<p>Semantics:</p>
+<blockquote>
+Reserve space in memory for an object of the class &lt;classname&gt;.
+<em>If a constructor exists in the class, it is called with the
+arguments specified between the parentheses.</em> The definition
+evaluates to the newly created object after the constructor
+finishes execution.</blockquote>
+</blockquote>
+<p>For example:</p>
+<pre class="literal-block">
+new Car(12, 13)
+</pre>
+<p>This creates a new object of class <tt class="docutils literal">Car</tt>, then calls its constructor
+with the two arguments 12 and 13, then returns the newly created object.</p>
+<p>When to use a constructor? As seen in the example above, <em>the
+constructor is the place in a program where you set the initial values
+for an object's attributes</em>.</p>
+</div>
+<div class="section" id="vocabulary">
+<h1><a class="toc-backref" href="#toc-entry-9">Vocabulary</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Term</th>
+<th class="head">Definition</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>class</td>
+<td>Family of objects, “blueprint” for particular instances</td>
+</tr>
+<tr><td>instance</td>
+<td>One specific object with its own variables</td>
+</tr>
+<tr><td>object</td>
+<td>Synonym of “instance”</td>
+</tr>
+<tr><td>method</td>
+<td>Function in a class, that can be invoked on instances</td>
+</tr>
+<tr><td>constructor</td>
+<td>Function in a class, automatically invoked by <tt class="docutils literal">new</tt></td>
+</tr>
+<tr><td>attribute</td>
+<td>Synonym of “instance variable”, a variable “inside” an object</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="important-concepts">
+<h1><a class="toc-backref" href="#toc-entry-10">Important concepts</a></h1>
+<ul class="simple">
+<li>the terms “class”, “attribute” and “method” (from earlier lecture);</li>
+<li>the term <em>“instance”</em></li>
+<li>class definition (from earlier lecture);</li>
+<li>method invocation (from earlier lecture);</li>
+<li>method definitions and the special variable “<tt class="docutils literal">this</tt>”;</li>
+<li><em>object declaration</em> (analogous to array declaration);</li>
+<li><em>object definition</em>  with <tt class="docutils literal">new</tt> (analogous to array definition);</li>
+<li><em>attribute access</em>;</li>
+<li><em>constructor</em> and providing arguments via <tt class="docutils literal">new</tt>;</li>
+<li>when to use constructors.</li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h1><a class="toc-backref" href="#toc-entry-11">Further reading</a></h1>
+<ul class="simple">
+<li>Think Java, sections 11.1-11.6 (pp. 131-137), section 11.15 (exercises);</li>
+<li>Introduction to programming, section 5.1 up to and including 5.1.1 (pp. 189-192), section 5.2 up to and including 5.2.2 (pp. 199-206);</li>
+<li>Absolute Java, sections 4.1 (pp. 174-184), 4.4 (pp. 226-241).</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="copyright-and-licensing">
+<h1><a class="toc-backref" href="#toc-entry-12">Copyright and licensing</a></h1>
+<p>Copyright © 2014, Raphael ‘kena’ Poss.
+Permission is granted to distribute, reuse and modify this document
+according to the terms of the Creative Commons Attribution-ShareAlike
+4.0 International License.  To view a copy of this license, visit
+<a class="reference external" href="http://creativecommons.org/licenses/by-sa/4.0/">http://creativecommons.org/licenses/by-sa/4.0/</a>.</p>
+</div>
+</div>
+</body>
+</html>
